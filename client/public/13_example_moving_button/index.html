@@ -10,7 +10,12 @@
 
 <body id="body">
 
-    <div class="button" id="button1" onclick="handleButtonClick()"></div>
+    <a value="up" id="up" onclick="commandMoveBox(this)">up</a>
+    <a value="down" id="down" onclick="commandMoveBox(this)">down</a>
+    <a value="left" id="left" onclick="commandMoveBox(this)">left</a>
+    <a value="right" id="right" onclick="commandMoveBox(this)">right</a>
+
+    <div id="movingBox"></div>
     
     <script src="js/script.js"></script>
 </body>
