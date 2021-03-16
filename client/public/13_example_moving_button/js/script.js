@@ -17,30 +17,30 @@ socket.on('connected', function (msg) {
 socket.on('serverEvent', function (message) {
     console.log(message);
 
-    let button1 = document.getElementById("button1");
+    let movingBox = document.getElementById("movingBox");
 
     if (message == "up") {
-        let y = button1.offsetTop;
+        let y = movingBox.offsetTop;
         y = y + 20;
-        button1.style.top = y + "px";
+        movingBox.style.top = y + "px";
     }
 
     if (message == "down") {
-        let y = button1.offsetTop;
+        let y = movingBox.offsetTop;
         y = y - 20;
-        button1.style.top = y + "px";
+        movingBox.style.top = y + "px";
     }
 
     if (message == "left") {
-        let x = button1.offsetLeft;
+        let x = movingBox.offsetLeft;
         x = x - 20;
-        button1.style.left = x + "px";
+        movingBox.style.left = x + "px";
     }
 
     if (message == "right") {
-        let x = button1.offsetLeft;
+        let x = movingBox.offsetLeft;
         x = x + 20;
-        button1.style.left = x + "px";
+        movingBox.style.left = x + "px";
     }
 
 });

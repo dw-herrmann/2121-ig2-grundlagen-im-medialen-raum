@@ -11,6 +11,18 @@ body {
     left: 200px;
     top: 200px;
 }
+<<<<<<< HEAD
+
+  
+=======
+.directions {
+
+background-color: aqua;
+
+
+}
+>>>>>>> 96f5b201818d17b406453bcfc56d113366af007a
+
 
 h2 {
     display: block;
@@ -21,4 +33,3 @@ h2 {
     margin-right: 0;
     font-weight: bold;
   }
-  
