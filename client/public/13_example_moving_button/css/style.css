@@ -11,24 +11,25 @@ body {
     left: 200px;
     top: 200px;
 }
+
 .direction01 {
 
-background-color: aqua;
+    background-color: aqua;
 }
 
 .direction02 {
 
-background-color:coral 
+    background-color: coral
 }
 
- .direction03 {
+.direction03 {
 
-background-color:darkslategrey
+    background-color: darkslategrey
 }
 
- .direction04 {
+.direction04 {
 
-background-color:mediumpurple
+    background-color: mediumpurple
 }
 
 h2 {
@@ -39,13 +40,14 @@ h2 {
     margin-left: 0;
     margin-right: 0;
     font-weight: bold;
-  }
-  #movingBox {
-    position: absolute; 
+}
+
+#movingBox {
+    position: absolute;
     width: 300px;
     height: 300px;
     background-image: url("Kompass.jpg");
     background-size: 300px 300px;
-    left: 500px ;
+    left: 500px;
     top: 400px;
 }
