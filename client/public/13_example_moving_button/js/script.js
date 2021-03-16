@@ -17,17 +17,18 @@ socket.on('connected', function (msg) {
 socket.on('serverEvent', function (message) {
     console.log(message);
 
+
     let movingBox = document.getElementById("movingBox");
 
     if (message == "up") {
         let y = movingBox.offsetTop;
-        y = y + 20;
+        y = y - 20;
         movingBox.style.top = y + "px";
     }
 
     if (message == "down") {
         let y = movingBox.offsetTop;
-        y = y - 20;
+        y = y + 20;
         movingBox.style.top = y + "px";
     }
 
