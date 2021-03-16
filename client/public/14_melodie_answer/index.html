@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body id="body">
+
+    <!-- 
+        Spieler Anzeige (Menge der Spieler wird dynamisch ergänzt)
+        <span> zeigt die Rolle des Fragenstellers an
+    -->
+    <div class="player">
+        <h2>Player</h2>
+        <div>
+            <p>Spieler 1 <span> ! </span></p>
+            <p>Spieler 2</p>
+        </div>
+    </div>
+
+    <!-- 
+        Je nach Status wechselnder Inhalt. Die anderen beiden Inhaltscontainer sind währenddessen ausgeblendet
+     -->
+    <div class="content">
+
+        <!-- State 1 - Fragestellung -->
+        <div class="question">
+
+            <div class="questioner">
+                <h2>Wie findest du <input type="text"> ?</h2>
+                <button>Senden</button>
+            </div>
+            <div class="answerer">
+                <h2>  </h2>
+            </div>
+        </div>
+
+        <!-- State 2 - Antwort -->
+        <div class="answering">
+            <h2>Wie findest du <span class="variable_question">Avokado</span> ?</h2>
+            <h3>Deine Antwort:</h3>
+            <div class="melody_box melody_box_answer">
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <button>Abspielen</button>
+            <button>Senden</button>
+
+        </div>
+
+        <!-- State 3 - Anhören der Antworten -->
+        <div class="final_answer">
+            <h2>Wie findest du <span class="variable_question">Avokado</span> ?</h2>
+            
+            <h3>Antworten</h3>
+            <button>Spieler 1</button>
+            <button>Spieler 2</button>
+            <button>Spieler 3</button>
+            <button>Spieler 4</button>
+
+            <button>Weiter</button>
+
+        </div>
+    </div>
+
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
