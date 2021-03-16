@@ -40,7 +40,7 @@ let answers = []
 
 // Vorlage für Antworten Objekt
 // 
-class Answer = {
+class Answer {
     constructor(selected) {
 
     }
@@ -57,8 +57,7 @@ class Answer = {
 
 // Funktion, die nach jeder Runde alles zurücksetzt und variablen leert
 // question, answers, state
-reset() {
-}
+function reset() {}
 
 
 
