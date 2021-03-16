@@ -11,9 +11,21 @@ body {
     left: 200px;
     top: 200px;
 }
-.directions {
+.direction01 {
 
 background-color: aqua;
-
-
 }
+.direction02 {
+
+    background-color:coral 
+    }
+
+ .direction03 {
+
+    background-color:darkslategrey
+     }
+
+ .direction03 {
+
+     background-color:mediumpurple
+ }
