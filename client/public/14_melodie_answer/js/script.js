@@ -21,10 +21,14 @@ let notes = ["c3", "h", "a", "g", "f", "e", "d", "c4"]
 // Töne
 const sounds = {
     instrument_1: {
-        c4: "link zur Sound-Datei.mp3",
-        h: "link zur Sound-Datei.mp3",
-        a: "link zur Sound-Datei.mp3" 
-        // usw
+        c3: "C3.m4a",
+        h: "H.m4a",
+        a: "A.m4a",
+        g: "G.m4a",
+        f: "F.m4a",
+        e: "E.m4a",
+        d: "D.m4a",
+        c4: "C4.m4a"
     }
 }
 
