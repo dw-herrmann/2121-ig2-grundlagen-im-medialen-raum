@@ -34,11 +34,10 @@ body>.player {
 
 .content>div {
     min-height: 500px;
-    margin-bottom: 300px;
 }
 
-.content>div>h2,
-.content>div>h3 {
+.content h2,
+.content h3 {
     text-align: center;
 }
 
@@ -48,10 +47,30 @@ body>.player {
 
 
 
+/* State 0 - Anmeldung */
+.content div.register {}
+
+div.register .avatar {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+div.register .avatar div {
+    width: 100px;
+    height: 100px;
+    margin: 30px;
+    /* display: inline-block; */
+}
+
+
+
+
 /* State 1 - Fragestellung */
 .content div.question {}
 
-
+div.question
 
 
 
