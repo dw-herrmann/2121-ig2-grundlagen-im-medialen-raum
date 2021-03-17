@@ -59,14 +59,14 @@ let notes = ["c3", "h", "a", "g", "f", "e", "d", "c4"]
 // Töne
 const sounds = {
     instrument_1: {
-        c3: "C3.m4a",
-        h: "H.m4a",
-        a: "A.m4a",
-        g: "G.m4a",
-        f: "F.m4a",
-        e: "E.m4a",
-        d: "D.m4a",
-        c4: "C4.m4a"
+        c3: "../sound/C3.m4a",
+        h: "../sound/H.m4a",
+        a: "../sound/A.m4a",
+        g: "../sound/G.m4a",
+        f: "../sound/F.m4a",
+        e: "../sound/E.m4a",
+        d: "../sound/D.m4a",
+        c4: "../sound/C4.m4a"
     }
 }
 
