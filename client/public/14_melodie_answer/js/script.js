@@ -8,19 +8,30 @@ let players = {
 }
 
 // Check nach Verbindung
-socket.on('connected', function (msg, id) {
+socket.on('connected', function (msg) {
     console.log(msg);
-
-    players.me = new Player()
 });
 
+
+
+
+
+
+
 // Holt sich Spielerliste
-socket.on('newUsersEvent', function (myID, myIndex, userList, since) {
+socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
     // checkt nach eigener ID
     players.me.id = myID
-    players.me.since = since
 
+    userList[0].since
+    userList.forEach(element => {
+
+        if (players.me.id == element.id) {
+            players.me.since = element.since
+        }
+    });
+    
 });
 
 
@@ -50,8 +61,8 @@ class Player {
     getStatus() {
 
     }
-
 }
+
 
 
 // Noten als Name
@@ -115,13 +126,6 @@ function reset() {}
 function getPlayerList(params) {
     // spieler auslesen
     // andere anfragen nach Liste (ID, Icon und Farbe)
-
-    socket.on('newUsersEvent', function (myID, myIndex, userList) {
-        players.me = myID
-        players.list = userList
-        console.log(myID);
-        console.log(userList);
-    })
 
 }
 
