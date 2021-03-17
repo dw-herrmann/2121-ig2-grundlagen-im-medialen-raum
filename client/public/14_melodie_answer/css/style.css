@@ -97,9 +97,20 @@ div.register div.leo {
 }
 
 /* State 1 - Fragestellung */
-.content div.question {}
+.content div.question .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #7FBC7D;
+    border-right: 16px solid #FFBB6B;
+    border-bottom: 16px solid #FC7479;
+    border-left: 16px solid #4BA9DC;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    }
 
-div.question
+div.question {}
 
 
 
