@@ -24,31 +24,6 @@ socket.on('newUsersEvent', function (myID, myIndex, userList, since) {
 });
 
 
-socket.on('serverEvent', function (message) {
-    console.log("Incoming event: ", message);
-
-    if (message.type == "message") {
-        let now = new Date();
-        now = now.toLocaleTimeString().slice(0, -3);
-        let newDiv = document.createElement("div");
-        newDiv.className = "message";
-        newDiv.style.backgroundColor = message.color;
-        // Add class "own", if the sending user was me
-        if (message.from == userNameElement.value) {
-            newDiv.className += " own";
-            newDiv.innerHTML = "<div class='header'>" + now + "</div>"
-        } else {
-            newDiv.innerHTML = "<div class='header'>" + message.from + " – " + now + "</div>"
-        }
-        newDiv.innerHTML += "<div class='text'>" + message.text + "</div>";
-
-        chatMessagesElement.prepend(newDiv);
-        chatMessagesElement.scrollTo(0, 0);
-    }
-
-});
-
-
 
 
 
