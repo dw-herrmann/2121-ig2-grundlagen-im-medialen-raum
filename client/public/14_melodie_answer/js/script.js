@@ -13,7 +13,13 @@ socket.on('connected', function (msg) {
 });
 
 
-
+/* Funktion zum Senden */
+function send(domain, value) {
+    socket.emit('serverEvent', {
+        domain: domain,
+        value: value
+    });
+}
 
 
 
@@ -31,7 +37,7 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
             players.me.since = element.since
         }
     });
-    
+
 });
 
 
@@ -131,7 +137,7 @@ function getPlayerList(params) {
 
 
 // Status Anzeige
-function show_state(status) {
+function set_state(status) {
     if (status == 1) {
         // alle verstecken
         $(".content>div").hide()
@@ -191,10 +197,18 @@ function show_state(status) {
 
 
 
+/* Events erhalten und interpretieren */
+socket.on('serverEvent', function (input) {
+    // input = {domain:"thema", value:"daten"}
 
+    switch (input.domain) {
+        case "status":
+            // funktionen zum aufrufen
+            set_state(input.value)
 
-// Incoming events 
-socket.on('serverEvent', function (message) {
-    console.log(message);
+            break;
 
+        default:
+            break;
+    }
 });
