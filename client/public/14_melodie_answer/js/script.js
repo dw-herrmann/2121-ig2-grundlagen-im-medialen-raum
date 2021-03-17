@@ -17,11 +17,11 @@ let roles = [
 let players = []
 
 // Noten als Name
-let notes = ["c1", "h", "a", "g", "f", "e", "d", "c"]
+let notes = ["c3", "h", "a", "g", "f", "e", "d", "c4"]
 // Töne
 const sounds = {
     instrument_1: {
-        c2: "link zur Sound-Datei.mp3",
+        c4: "link zur Sound-Datei.mp3",
         h: "link zur Sound-Datei.mp3",
         a: "link zur Sound-Datei.mp3" 
         // usw
