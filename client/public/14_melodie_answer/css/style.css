@@ -59,11 +59,14 @@ div.register .avatar {
 }
 
 
-
 div.register .avatar div {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 30px;
+    top: 200px;
+    left: 200px;
+    border-radius: 200px;
+    border: 4px solid #7FBC7D;
     /* display: inline-block; */
 }
 
@@ -73,6 +76,21 @@ div.register .avatar div img {
     transform: translate(-50%, -50%);
 }
 
+div.register div.koala {
+    border: 4px solid #7FBC7D;
+}
+
+div.register div.giraffe {
+    border: 4px solid #FFBB6B;
+}
+
+div.register div.elefant {
+    border: 4px solid #FC7479;
+}
+
+div.register div.leo {
+    border: 4px solid #4BA9DC;
+}
 
 /* State 1 - Fragestellung */
 .content div.question {}
