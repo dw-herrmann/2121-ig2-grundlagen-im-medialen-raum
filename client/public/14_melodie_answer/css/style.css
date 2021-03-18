@@ -98,8 +98,9 @@ div.register div.leo {
 
 /* State 1 - Fragestellung */
 .content div.question .loader {
-    margin-left: 50%;
-    margin-top: 50%;
+    margin-left: 45%;
+    margin-top: 10%;
+    transform: translate(-50%, -50%);
     border: 8px solid #f3f3f3;
     border-radius: 50%;
     border-top: 8px solid #7FBC7D;
