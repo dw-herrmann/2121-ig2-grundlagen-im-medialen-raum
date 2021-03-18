@@ -87,7 +87,7 @@ class Game {
     constructor(myID) {
         this.state
         this.question
-        this.player_list;
+        this.player_list = []
     }
 
 
@@ -109,17 +109,40 @@ class Game {
 
 
     host_update_all(input) {
-
+        
         // wenn host
         if (players.me.index == 0) {
-
+            
             // falls spieler vorhanden, update, ansonsten füge hinzu
-            this.player_list = "test"
-            console.log("id = " + input.value.player.id);
+
+            // console.log("this.player_list");
+
+            // console.log(this.player_list);
             
-            
+
+            // let temp_id_list = []
+            // sucht jedes 
+            this.player_list.forEach(element => {
+                temp_id_list.push(element.id)
+                console.log(element.id);
+            });
+
+            // console.log(temp_id_list);
+
+            // prüft, ob element in code enthalten
+            // this.player_list.push(input.value.player)
+
+
+
+
+            // this.player_list.forEach(this.player_list => {
+            // });
+
+
+
+
             if (input.value.player.id) {
-                
+                if (!this.player_list) {}
             }
 
             // sende geupdatete liste
@@ -132,14 +155,12 @@ class Game {
     }
 
 
-    
-    cliend_update_player_list(input) {
-        console.log( input.value)
-        // wenn cliend
-        if (players.me.index != 0) {
-            
-            this.player_list = input.value.list
 
+    cliend_update_player_list(input) {
+
+        // wenn cliend, update list
+        if (players.me.index != 0) {
+            this.player_list = input.value.list
         }
     }
 
@@ -276,16 +297,6 @@ $(".melody_box div  div:nth-child(8)").click(function() {
 });
 
 
-// Funktion, die nach jeder Runde alles zurücksetzt und variablen leert
-// question, answers, state
-function reset() {}
-
-function getPlayerList(params) {
-    // spieler auslesen
-    // andere anfragen nach Liste (ID, Icon und Farbe)
-    // bli bla böubb
-
-}
 
 
 // Status Anzeige
@@ -295,10 +306,12 @@ function set_state(status) {
         $("div.question").show() // Status Fragestellung wieder zeigen
 
         // Prüfen auf Spielerstatus
-        if (players.me) {
-
+        if (players.me.index == 0) {
+            $("div.question>div").hide() // alle verstecken
+            $("div.questioner").show() // Status Fragestellung wieder zeigen
         } else {
-
+            $("div.question>div").hide() // alle verstecken
+            $("div.answerer").show() // Status Fragestellung wieder zeigen
         }
 
     } else if (status == 2) {
