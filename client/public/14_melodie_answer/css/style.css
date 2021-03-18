@@ -173,7 +173,7 @@ div.final_answer .avatar {
 
 div.position_svg {
     display: flex;
-    width: 200 px;
+    width: 200px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
