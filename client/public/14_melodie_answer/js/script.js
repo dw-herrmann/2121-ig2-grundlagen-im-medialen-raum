@@ -198,6 +198,10 @@ function play_audio(task) {
 // question, answers, state
 function reset() {}
 
+
+
+
+
 function mousedown() {
     $(".melody_box div  div:nth-child(1)").play(sounds.instrument_1.c3.play)
 }
@@ -206,6 +210,7 @@ function mousedown() {
 function getPlayerList(params) {
     // spieler auslesen
     // andere anfragen nach Liste (ID, Icon und Farbe)
+    // bli bla böubb
 
 }
 
