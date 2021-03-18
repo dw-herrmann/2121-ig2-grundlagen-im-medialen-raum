@@ -7,7 +7,7 @@ let socket = io();
 
 
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
-// ##### ##### ##### CONNECTION  ##### ##### ##### //
+// ----- ----- ----- CONNECTION  ----- ----- ----- //
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
 
 // Check nach Verbindung
@@ -49,17 +49,16 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 // ##### ##### ##### PLAYER  ##### ##### ##### //
-// ##### ##### ##### PLAYER  ##### ##### ##### //
+// ----- ----- ----- PLAYER  ----- ----- ----- //
 // ##### ##### ##### PLAYER  ##### ##### ##### //
 
 // Vorlage für Spieler
 class Player {
-    constructor(myID) {
-        this.id = ""
-        this.index = ""
-        this.role = 1
-        this.icon = 1
-        this.color = 1
+    constructor() {
+        this.id
+        this.index
+        this.avatar
+        this.answer
     }
 }
 
@@ -80,7 +79,7 @@ let players = {
 
 
 // ##### ##### ##### GAME  ##### ##### ##### //
-// ##### ##### ##### GAME  ##### ##### ##### //
+// ----- ----- ----- GAME  ----- ----- ----- //
 // ##### ##### ##### GAME  ##### ##### ##### //
 
 class Game {
@@ -90,8 +89,11 @@ class Game {
         this.player_list = []
     }
 
+    // ##### COMMUNICATION  ##### //
+    // ----- COMMUNICATION  ----- //
+    // ##### COMMUNICATION  ##### //
 
-
+    // CLIENT sents player info to HOST
     send_own_player(input) {
         // updated eigenen user
         if (input.trigger == "newUsersEvent") {
@@ -107,68 +109,63 @@ class Game {
 
     }
 
-
-    host_update_all(input) {
+    // HOST sends updated player list to CLIENTS
+    host_update_player_list(input) {
 
         // wenn host
         if (players.me.index == 0) {
 
             let old_player_list = []
-            
+
             // trägt alle ids in array ein
             this.player_list.forEach(element => {
                 old_player_list.push(element.id)
             });
-            
+
             // falls ID bereits existiert
             if (old_player_list.includes(input.value.player.id)) {
                 // Position herausfinden und updaten
                 let pos = old_player_list.indexOf(input.value.player.id)
                 this.player_list[pos] = input.value.player
-                
+
             } else {
                 // player hinzufügem
                 this.player_list.push(input.value.player)
-                
+
             }
 
             // sende geupdatete liste
             send("players", {
-                who: "all",
+                who: "list",
                 list: this.player_list
             })
+
+            console.log("player list updated. " + this.player_list.length + " player/s");
         }
+
     }
 
-
-
+    // CLIENT updates player list
     cliend_update_player_list(input) {
 
         // wenn cliend, update list
         if (players.me.index != 0) {
             this.player_list = input.value.list
+            console.log("player list updated. " + this.player_list.length + " player/s");
         }
+
     }
 
+    // HOST to client new game info
 
 
+    // CLIENT new game
+    reset() {
+        // status auf 0 setzen
+        this.state = 1
+        this.question = 0
+    }
 
-
-
-
-
-
-
-    // reset() {
-    //     // status auf 0 setzen
-    //     this.state = 1
-    //     this.question = 0
-    // }
-
-
-    // ask_for_infos() {
-
-    // }
 
 }
 
@@ -375,10 +372,10 @@ socket.on('serverEvent', function (input) {
             switch (input.value.who) {
                 case "own":
                     // funktionen zum aufrufen
-                    game.host_update_all(input)
+                    game.host_update_player_list(input)
                     break;
 
-                case "all":
+                case "list":
                     // Spielerliste updaten
                     game.cliend_update_player_list(input)
                     break;
