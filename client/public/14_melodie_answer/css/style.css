@@ -98,14 +98,16 @@ div.register div.leo {
 
 /* State 1 - Fragestellung */
 .content div.question .loader {
-    border: 16px solid #f3f3f3;
+    margin-left: 50%;
+    margin-top: 50%;
+    border: 8px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 16px solid #7FBC7D;
-    border-right: 16px solid #FFBB6B;
-    border-bottom: 16px solid #FC7479;
-    border-left: 16px solid #4BA9DC;
-    width: 120px;
-    height: 120px;
+    border-top: 8px solid #7FBC7D;
+    border-right: 8px solid #FFBB6B;
+    border-bottom: 8px solid #FC7479;
+    border-left: 8px solid #4BA9DC;
+    width: 60px;
+    height: 60px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
     }
@@ -118,14 +120,6 @@ div.register div.leo {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-      </style>
-</head>
-<body>
-
-<div class="loader"></div>
-
-</body>
-</html>
 
 div.question {}
 
