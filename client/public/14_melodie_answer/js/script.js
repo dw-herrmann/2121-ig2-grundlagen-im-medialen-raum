@@ -25,19 +25,6 @@ function send(domain, value) {
 }
 
 
-// Holt sich Spielerliste
-socket.on('newUsersEvent', function (myID, myIndex, userList) {
-
-    // eigenen Player überprüfen
-    game.send_own_player({
-        trigger: "newUsersEvent",
-        myID: myID,
-        myIndex: myIndex,
-        userList: userList
-    })
-
-});
-
 
 
 
@@ -57,9 +44,10 @@ class Player {
     constructor() {
         this.id
         this.index
-        this.avatar
-        this.answer
+        this.avatar = false
+        this.answer = ""
     }
+
 }
 
 
@@ -73,20 +61,24 @@ let players = {
 
 
 
-
-
-
-
-
 // ##### ##### ##### GAME  ##### ##### ##### //
 // ----- ----- ----- GAME  ----- ----- ----- //
 // ##### ##### ##### GAME  ##### ##### ##### //
 
 class Game {
-    constructor(myID) {
+    constructor() {
         this.state
         this.question
-        this.player_list = []
+        this.player_list = {
+            all: [],
+            active: []
+        }
+        this.avatars = [
+            "koala",
+            "giraffe",
+            "elefant",
+            "leo"
+        ]
     }
 
     // ##### COMMUNICATION  ##### //
@@ -97,6 +89,7 @@ class Game {
     send_own_player(input) {
         // updated eigenen user
         if (input.trigger == "newUsersEvent") {
+
             players.me.id = input.myID
             players.me.index = input.myIndex
         }
@@ -115,23 +108,65 @@ class Game {
         // wenn host
         if (players.me.index == 0) {
 
-            let old_player_list = []
+            // host hinzufügen
+            let old_player_list = {
+                all: [],
+                active: []
+            }
 
-            // trägt alle ids in array ein
-            this.player_list.forEach(element => {
-                old_player_list.push(element.id)
+            if (this.player_list.length == 0) {
+                this.player_list.all.push(players.me)
+            }
+
+            // trägt alle IDs in array ein
+            this.player_list.all.forEach(element => {
+
+                old_player_list.all.push(element.id)
+
             });
 
-            // falls ID bereits existiert
-            if (old_player_list.includes(input.value.player.id)) {
-                // Position herausfinden und updaten
-                let pos = old_player_list.indexOf(input.value.player.id)
-                this.player_list[pos] = input.value.player
 
+
+
+
+            // falls ID bereits existiert
+            if (old_player_list.all.includes(input.value.player.id)) {
+                // Position herausfinden und updaten
+                let pos = old_player_list.all.indexOf(input.value.player.id)
+                this.player_list.all[pos] = input.value.player
             } else {
                 // player hinzufügem
-                this.player_list.push(input.value.player)
+                this.player_list.all.push(input.value.player)
+            }
 
+
+
+
+            // sortiert nach index
+            function compare(a, b) {
+                if (a.index < b.index) {
+                    return -1;
+                }
+                if (a.index > b.index) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            // sortieren
+            this.player_list.all.sort(compare);
+
+            // active leeren
+            this.player_list.active = []
+
+
+
+
+
+            for (let index = 0; index < this.player_list.all.length; index++) {
+                if (this.player_list.all[index].avatar != false) {
+                    this.player_list.active.push(this.player_list.all[index])
+                }
             }
 
             // sende geupdatete liste
@@ -140,7 +175,7 @@ class Game {
                 list: this.player_list
             })
 
-            console.log("player list updated. " + this.player_list.length + " player/s");
+            console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
         }
 
     }
@@ -151,13 +186,10 @@ class Game {
         // wenn cliend, update list
         if (players.me.index != 0) {
             this.player_list = input.value.list
-            console.log("player list updated. " + this.player_list.length + " player/s");
+            console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
         }
 
     }
-
-    // HOST to client new game info
-
 
     // CLIENT new game
     reset() {
@@ -174,25 +206,64 @@ let game = new Game()
 
 
 
+// ##### ##### ##### UI  ##### ##### ##### //
+// ----- ----- ----- UI  ----- ----- ----- //
+// ##### ##### ##### UI  ##### ##### ##### //
+
+class UI {
+    constructor(myID) {
+        this.avatars = {
+            list: [
+                "koala",
+                "giraffe",
+                "elefant",
+                "leo"
+            ],
+            used: [
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    }
+
+    select_avatar() {
+
+    }
 
 
+    // // Zeigt aktive Spielerliste oben links an
+    show_players() {
+
+        let add_to_html = []
+
+        console.log(game.player_list.all.length);
+        // jeden Player ansehen
+        for (let index = 0; index < game.player_list.length; index++) {
+
+            console.log(game.player_list.all[index]);
+
+            // unausgewählte ignorieren
+            if (game.player_list[index].avatar != "") {
+
+                add_to_html.push(
+                    '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + game.player_list[index].icon + '.svg" width="20"> </div>'
+                )
+            }
+        }
+        console.log(add_to_html);
+
+        $("div.player").append(add_to_html);
 
 
+        // $('div.player').after("<p>test123</p>")
+        // let active_players = $("<p></p>").text("Text.")
+    }
 
+}
 
-
-// Holt sich Spielerliste
-socket.on('newUsersEvent', function (myID, myIndex, userList) {
-
-    // eigenen Player überprüfen
-    game.send_own_player({
-        trigger: "newUsersEvent",
-        myID: myID,
-        myIndex: myIndex,
-        userList: userList
-    })
-
-});
+let ui = new UI()
 
 
 
@@ -371,7 +442,8 @@ socket.on('serverEvent', function (input) {
         case "players":
             switch (input.value.who) {
                 case "own":
-                    // funktionen zum aufrufen
+
+                    // funktionen zum verschicken
                     game.host_update_player_list(input)
                     break;
 
@@ -385,11 +457,24 @@ socket.on('serverEvent', function (input) {
             }
             break;
 
-        case "game":
-
-            break;
-
         default:
             break;
     }
 });
+
+
+
+// Holt sich Spielerliste
+socket.on('newUsersEvent', function (myID, myIndex, userList) {
+
+    // eigenen Player überprüfen
+    game.send_own_player({
+        trigger: "newUsersEvent",
+        myID: myID,
+        myIndex: myIndex,
+        userList: userList
+    })
+
+});
+
+
