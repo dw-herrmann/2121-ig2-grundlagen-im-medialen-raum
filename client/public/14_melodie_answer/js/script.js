@@ -54,12 +54,11 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 // Vorlage für Spieler
 class Player {
-    constructor(myID) {
-        this.id = ""
-        this.index = ""
-        this.role = 1
-        this.icon = 1
-        this.color = 1
+    constructor() {
+        this.id
+        this.index
+        this.avatar = 1
+        this.answer = ""
     }
 }
 
@@ -84,14 +83,26 @@ let players = {
 // ##### ##### ##### GAME  ##### ##### ##### //
 
 class Game {
-    constructor(myID) {
+    constructor() {
         this.state
         this.question
-        this.player_list = []
+        this.player_list = {
+            all: [],
+            active: []
+        }
+        this.avatars = [
+            "koala",
+            "giraffe",
+            "elefant",
+            "leo"
+        ]
     }
 
+    // ##### COMMUNICATION  ##### //
+    // ----- COMMUNICATION  ----- //
+    // ##### COMMUNICATION  ##### //
 
-
+    // CLIENT sents player info to HOST
     send_own_player(input) {
         // updated eigenen user
         if (input.trigger == "newUsersEvent") {
@@ -108,89 +119,168 @@ class Game {
     }
 
 
-    host_update_all(input) {
-
+    // HOST sends updated player list to CLIENTS
+    host_update_player_list(input) {
         // wenn host
         if (players.me.index == 0) {
-
-            let old_player_list = []
-
-            // trägt alle ids in array ein
-            this.player_list.forEach(element => {
-                old_player_list.push(element.id)
+            // host hinzufügen
+            let old_player_list = {
+                all: [],
+                active: []
+            }
+            if (this.player_list.length == 0) {
+                this.player_list.all.push(players.me)
+            }
+            // trägt alle IDs in array ein
+            this.player_list.all.forEach(element => {
+                old_player_list.all.push(element.id)
             });
 
             // falls ID bereits existiert
-            if (old_player_list.includes(input.value.player.id)) {
+            if (old_player_list.all.includes(input.value.player.id)) {
                 // Position herausfinden und updaten
-                let pos = old_player_list.indexOf(input.value.player.id)
-                this.player_list[pos] = input.value.player
-
+                let pos = old_player_list.all.indexOf(input.value.player.id)
+                this.player_list.all[pos] = input.value.player
             } else {
                 // player hinzufügem
-                this.player_list.push(input.value.player)
+                this.player_list.all.push(input.value.player)
+            }
 
+
+            // falls ID bereits existiert
+            if (old_player_list.all.includes(input.value.player.id)) {
+                // Position herausfinden und updaten
+                let pos = old_player_list.all.indexOf(input.value.player.id)
+                this.player_list.all[pos] = input.value.player
+            } else {
+                // player hinzufügem
+                this.player_list.all.push(input.value.player)
+            }
+            // sortiert nach index
+            function compare(a, b) {
+                if (a.index < b.index) {
+                    return -1;
+                }
+                if (a.index > b.index) {
+                    return 1;
+                }
+                return 0;
+            }
+            // sortieren
+            this.player_list.all.sort(compare);
+            // active leeren
+            this.player_list.active = []
+            for (let index = 0; index < this.player_list.all.length; index++) {
+                if (this.player_list.all[index].avatar != false) {
+                    this.player_list.active.push(this.player_list.all[index])
+                }
             }
 
             // sende geupdatete liste
             send("players", {
-                who: "all",
+                who: "list",
                 list: this.player_list
             })
+            console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
         }
     }
 
 
 
+    // CLIENT updates player list
     cliend_update_player_list(input) {
-
         // wenn cliend, update list
         if (players.me.index != 0) {
             this.player_list = input.value.list
+            console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
         }
     }
-
-
-
-
-
-
-
-
-
-
-    // reset() {
-    //     // status auf 0 setzen
-    //     this.state = 1
-    //     this.question = 0
-    // }
-
-
-    // ask_for_infos() {
-
-    // }
-
+    // CLIENT new game
+    reset() {
+        // status auf 0 setzen
+        this.state = 1
+        this.question = 0
+    }
 }
-
-console.log(game.player_list.active);
-
-// jeden Player ansehen
-for (let index = 0; index < game.player_list.active.length; index++) {
-    add_to_html.push(
-        '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + ui.avatars.list[game.player_list.active[index].avatar] + '.svg" width="20"> </div>'
-    )
-}
-console.log(add_to_html);
-
-$("div.player div").empty();
-$("div.player div").append(add_to_html);
-
-}
-
-
-
 
 let game = new Game()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ##### ##### ##### UI  ##### ##### ##### //
+// ----- ----- ----- UI  ----- ----- ----- //
+// ##### ##### ##### UI  ##### ##### ##### //
+
+class UI {
+    constructor(myID) {
+        this.avatars = {
+            list: [
+                "koala",
+                "giraffe",
+                "elefant",
+                "leo"
+            ],
+            used: [
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    }
+    select_avatar() {}
+
+
+
+    // // Zeigt aktive Spielerliste oben links an
+    show_players() {
+        let add_to_html = []
+        console.log(game.player_list.active);
+
+        // jeden Player ansehen
+        for (let index = 0; index < game.player_list.active.length; index++) {
+            add_to_html.push(
+                '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + ui.avatars.list[game.player_list.active[index].avatar] + '.svg" width="20"> </div>'
+            )
+        }
+        console.log(add_to_html);
+
+        $("div.player div").empty();
+        $("div.player div").append(add_to_html);
+
+    }
+}
+
+
+let ui = new UI()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -439,11 +529,11 @@ socket.on('serverEvent', function (input) {
         case "players":
             switch (input.value.who) {
                 case "own":
-                    // funktionen zum aufrufen
-                    game.host_update_all(input)
+                    // funktionen zum verschicken
+                    game.host_update_player_list(input)
                     break;
 
-                case "all":
+                case "list":
                     // Spielerliste updaten
                     game.cliend_update_player_list(input)
                     ui.show_players()
@@ -460,7 +550,7 @@ socket.on('serverEvent', function (input) {
 
         default:
             break;
-    } 
+    }
 });
 
 
@@ -478,75 +568,48 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 });
 
-send("players", {
-    who: "own",
-    player: {
-        id: "a",
-        index: 2,
-        avatar: 0,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "b",
-        index: 3,
-        avatar: 0,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "c",
-        index: 4,
-        avatar: 1,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "d",
-        index: 5,
-        avatar: 1,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "e",
-        index: 6,
-        avatar: 2,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "f",
-        index: 7,
-        avatar: 2,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "g",
-        index: 8,
-        avatar: 3,
-        answer: ""
-    }
-})
-send("players", {
-    who: "own",
-    player: {
-        id: "h",
-        index: 9,
-        avatar: 3,
-        answer: ""
-    }
-})
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "a",
+//         index: 2,
+//         avatar: 0,
+//         answer: ""
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "b",
+//         index: 3,
+//         avatar: 0,
+//         answer: ""
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "c",
+//         index: 4,
+//         avatar: 1,
+//         answer: ""
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "d",
+//         index: 5,
+//         avatar: 1,
+//         answer: ""
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "e",
+//         index: 6,
+//         avatar: 2,
+//         answer: ""
+//     }
+// })
