@@ -238,32 +238,54 @@ class UI {
 
         let add_to_html = []
 
-        console.log(game.player_list.all.length);
+        console.log(game.player_list.active);
+
         // jeden Player ansehen
-        for (let index = 0; index < game.player_list.length; index++) {
-
-            console.log(game.player_list.all[index]);
-
-            // unausgewählte ignorieren
-            if (game.player_list[index].avatar != "") {
-
-                add_to_html.push(
-                    '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + game.player_list[index].icon + '.svg" width="20"> </div>'
-                )
-            }
+        for (let index = 0; index < game.player_list.active.length; index++) {
+            add_to_html.push(
+                '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + ui.avatars.list[game.player_list.active[index].avatar] + '.svg" width="20"> </div>'
+            )
         }
         console.log(add_to_html);
 
-        $("div.player").append(add_to_html);
+        $("div.player div").empty();
+        $("div.player div").append(add_to_html);
 
-
-        // $('div.player').after("<p>test123</p>")
-        // let active_players = $("<p></p>").text("Text.")
     }
 
 }
 
 let ui = new UI()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -319,53 +341,43 @@ class Answer {
 
 //Töne abspielen
 // prüft zeile (tonlage)
-$(".melody_box div  div:nth-child(1)").click(function() {
+$(".melody_box div  div:nth-child(1)").click(function () {
     console.log("c4")
-    
-    // ton wird abgespielt
     sounds.instrument_1.c4.play()
-    
-    // welche spalte war das?
-
-    // kompletter spalte class wegnehmen
-    
-    // geklicktem Element geben
 });
 
-
-$(".melody_box div  div:nth-child(2)").click(function() {
+$(".melody_box div  div:nth-child(2)").click(function () {
     console.log("h")
     sounds.instrument_1.h.play()
 });
-$(".melody_box div  div:nth-child(3)").click(function() {
+$(".melody_box div  div:nth-child(3)").click(function () {
     console.log("a")
     sounds.instrument_1.a.play()
 });
-$(".melody_box div  div:nth-child(4)").click(function() {
+$(".melody_box div  div:nth-child(4)").click(function () {
     console.log("g")
     sounds.instrument_1.g.play()
 });
-$(".melody_box div  div:nth-child(5)").click(function() {
+$(".melody_box div  div:nth-child(5)").click(function () {
     console.log("f")
     sounds.instrument_1.f.play()
 });
-$(".melody_box div  div:nth-child(6)").click(function() {
+$(".melody_box div  div:nth-child(6)").click(function () {
     console.log("e")
     sounds.instrument_1.e.play()
 });
-$(".melody_box div  div:nth-child(7)").click(function() {
+$(".melody_box div  div:nth-child(7)").click(function () {
     console.log("d")
     sounds.instrument_1.d.play()
 });
-$(".melody_box div  div:nth-child(8)").click(function() {
+$(".melody_box div  div:nth-child(8)").click(function () {
     console.log("c3")
     sounds.instrument_1.c3.play()
 });
 
-$(".melody_box div  div").click(function() {
+$(".melody_box div  div").click(function () {
     $(this).parent().find('.changeColor').removeClass('changeColor')
     $(this).addClass('changeColor')
-    
 });
 
 
@@ -397,6 +409,33 @@ function set_state(status) {
         $("div.register").show() // Status Auswahlbildschirm wieder zeigen
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -450,6 +489,7 @@ socket.on('serverEvent', function (input) {
                 case "list":
                     // Spielerliste updaten
                     game.cliend_update_player_list(input)
+                    ui.show_players()
                     break;
 
                 default:
@@ -477,4 +517,75 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 });
 
-
+send("players", {
+    who: "own",
+    player: {
+        id: "a",
+        index: 2,
+        avatar: 0,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "b",
+        index: 3,
+        avatar: 0,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "c",
+        index: 4,
+        avatar: 1,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "d",
+        index: 5,
+        avatar: 1,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "e",
+        index: 6,
+        avatar: 2,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "f",
+        index: 7,
+        avatar: 2,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "g",
+        index: 8,
+        avatar: 3,
+        answer: ""
+    }
+})
+send("players", {
+    who: "own",
+    player: {
+        id: "h",
+        index: 9,
+        avatar: 3,
+        answer: ""
+    }
+})
