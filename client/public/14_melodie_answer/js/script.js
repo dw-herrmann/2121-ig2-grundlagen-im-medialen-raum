@@ -25,6 +25,20 @@ function send(domain, value) {
 }
 
 
+// Holt sich Spielerliste
+socket.on('newUsersEvent', function (myID, myIndex, userList) {
+
+    // eigenen Player überprüfen
+    game.send_own_player({
+        trigger: "newUsersEvent",
+        myID: myID,
+        myIndex: myIndex,
+        userList: userList
+    })
+
+});
+
+
 
 
 
@@ -101,8 +115,12 @@ class Game {
 
             // falls spieler vorhanden, update, ansonsten füge hinzu
             this.player_list = "test"
-            console.log(input.value.player);
-
+            console.log("id = " + input.value.player.id);
+            
+            
+            if (input.value.player.id) {
+                
+            }
 
             // sende geupdatete liste
             send("players", {
