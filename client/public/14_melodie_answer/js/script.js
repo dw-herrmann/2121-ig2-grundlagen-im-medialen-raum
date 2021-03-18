@@ -169,14 +169,14 @@ let notes = ["c3", "h", "a", "g", "f", "e", "d", "c4"]
 // Töne
 const sounds = {
     instrument_1: {
-        c3: new Audio("../sound/C3.m4a"),
-        h: new Audio("../sound/H.m4a"),
-        a: new Audio("../sound/A.m4a"),
-        g: new Audio("../sound/G.m4a"),
-        f: new Audio("../sound/F.m4a"),
-        e: new Audio("../sound/E.m4a"),
-        d: new Audio("../sound/D.m4a"),
-        c4: new Audio("../sound/C4.m4a")
+        c3: new Audio("./sound/C3.mp3"),
+        h: new Audio("./sound/H.mp3"),
+        a: new Audio("./sound/A.mp3"),
+        g: new Audio("./sound/G.mp3"),
+        f: new Audio("./sound/F.mp3"),
+        e: new Audio("./sound/E.mp3"),
+        d: new Audio("./sound/D.mp3"),
+        c4: new Audio("./sound/C4.mp3")
     }
 }
 
@@ -217,36 +217,43 @@ class Answer {
     }
 }
 
-        $(".melody_box div  div:nth-child(1)").mousedown(sounds.instrument_1.c3.play())
-        $(".melody_box div  div:nth-child(2)").mousedown(c3.play())
-        $(".melody_box div  div:nth-child(3)").click()
-        $(".melody_box div  div:nth-child(4)").click()
-        $(".melody_box div  div:nth-child(5)").click()
-        $(".melody_box div  div:nth-child(6)").click()
-        $(".melody_box div  div:nth-child(7)").click()
-
-
-$("#sounds.instrument_1.c3").trigger('load') 
-
-function play_audio(task) {
-    if (task == 'play') {
-        
-    }
-}
+$(".melody_box div  div:nth-child(1)").click(function() {
+    console.log("c3")
+    sounds.instrument_1.c3.play()
+});
+$(".melody_box div  div:nth-child(2)").click(function() {
+    console.log("h")
+    sounds.instrument_1.h.play()
+});
+$(".melody_box div  div:nth-child(3)").click(function() {
+    console.log("a")
+    sounds.instrument_1.a.play()
+});
+$(".melody_box div  div:nth-child(4)").click(function() {
+    console.log("g")
+    sounds.instrument_1.g.play()
+});
+$(".melody_box div  div:nth-child(5)").click(function() {
+    console.log("f")
+    sounds.instrument_1.f.play()
+});
+$(".melody_box div  div:nth-child(6)").click(function() {
+    console.log("e")
+    sounds.instrument_1.e.play()
+});
+$(".melody_box div  div:nth-child(7)").click(function() {
+    console.log("d")
+    sounds.instrument_1.d.play()
+});
+$(".melody_box div  div:nth-child(8)").click(function() {
+    console.log("c4")
+    sounds.instrument_1.c4.play()
+});
 
 
 // Funktion, die nach jeder Runde alles zurücksetzt und variablen leert
 // question, answers, state
 function reset() {}
-
-
-
-
-
-function mousedown() {
-    $(".melody_box div  div:nth-child(1)").play(sounds.instrument_1.c3.play)
-}
-
 
 function getPlayerList(params) {
     // spieler auslesen
