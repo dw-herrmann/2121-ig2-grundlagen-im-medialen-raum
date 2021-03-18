@@ -90,7 +90,7 @@ class Game {
             who: 'own',
             player: players.me
         })
-        
+
     }
 
 
@@ -98,15 +98,32 @@ class Game {
 
         // wenn host
         if (players.me.index == 0) {
-            console.log(this.player_list);
 
             // falls spieler vorhanden, update, ansonsten füge hinzu
+            this.player_list = "test"
             console.log(input.value.player);
-        }
 
+
+            // sende geupdatete liste
+            send("players", {
+                who: "all",
+                list: this.player_list
+            })
+
+        }
     }
 
 
+    
+    cliend_update_player_list(input) {
+        console.log( input.value)
+        // wenn cliend
+        if (players.me.index != 0) {
+            
+            this.player_list = input.value.list
+
+        }
+    }
 
 
 
@@ -324,6 +341,11 @@ socket.on('serverEvent', function (input) {
                 case "own":
                     // funktionen zum aufrufen
                     game.host_update_all(input)
+                    break;
+
+                case "all":
+                    // Spielerliste updaten
+                    game.cliend_update_player_list(input)
                     break;
 
                 default:
