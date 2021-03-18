@@ -13,8 +13,6 @@
 
 <body id="body">
 
-    <audio id="audio-c3" preload="auto" src="./sound/C3.mp3"></audio>
-
     <!-- 
         Spieler Anzeige (Menge der Spieler wird dynamisch ergänzt)
         <span> zeigt die Rolle des Fragenstellers an
@@ -23,14 +21,13 @@
     <div class="player">
         <h2>Player</h2>
         <div>
-            <div style="color:#7FBC7D;"> <img class="playeremoji" src="img/Koala.svg" width="20"> Spieler 1 <span>
-                    &#10094 </span></div>
+            <div style="color:#7FBC7D;"> <img class="playeremoji" src="img/Koala.svg" width="20">  Spieler 1 <span> &#10094 </span></div>
             <br>
-            <div style="color:#FFBB6B"> <img class="playeremoji" src="img/Giraffe.svg" width="20"> Spieler 2 </div>
+            <div style="color:#FFBB6B"> <img class="playeremoji" src="img/Giraffe.svg" width="20">  Spieler 2 </div>
             <br>
-            <div style="color:#FC7479;"> <img class="playeremoji" src="img/Elefant.svg" width="20"> Spieler 3</div>
+            <div style="color:#FC7479;"> <img class="playeremoji" src="img/Elefant.svg" width="20">  Spieler 3</div>
             <br>
-            <div style="color:#4BA9DC;"> <img class="playeremoji" src="img/Leo.svg" width="20"> Spieler 4</div>
+            <div style="color:#4BA9DC;"> <img class="playeremoji" src="img/Leo.svg" width="20">  Spieler 4</div>
         </div>
     </div>
 
@@ -42,11 +39,11 @@
         <!-- State 0 - Anmeldung -->
         <div class="register">
 
-            <h2>Wähle ein Emoji aus</h2>
-
+            <h2>Wähle ein Emoji</h2>
+           
             <div class="avatar">
                 <div class="koala"> <img src="img/Koala.svg" width="85"> </div>
-                <div class="giraffe"> <img src="img/Giraffe.svg" width="65"> </div>
+                <div class="giraffe" > <img src="img/Giraffe.svg" width="65"> </div>
                 <div class="elefant"> <img src="img/Elefant.svg" width="100"> </div>
                 <div class="leo"> <img src="img/Leo.svg" width="61"> </div>
             </div>
@@ -56,9 +53,10 @@
         <div class="question">
 
             <div class="questioner">
-                <h2>Wie findest du <input type="text"> ? <button>Senden</button>
+                <h2>Wie findest du <input type="text"> ?  <button><img src="img/sendenweiß.svg" width="15"></button>
             </div>
             <div class="answerer">
+                <h2></h2>
                 <h2> Bitte warten... </h2>
                 <h3> Spieler 1 stellt eine Frage. </h3>
                 <div class="loader"></div>
@@ -152,28 +150,23 @@
                 </div>
             </div>
 
-            <button>Abspielen</button>
-            <button>Senden</button>
+            <button><img src="img/playweiß.svg" width="20"></button>
+            <button><img src="img/pauseweiß.svg" width="20"></button>
+            <button><img src="img/stopweiß.svg" width="20"></button>
+            <button><img src="img/sendenweiß.svg" width="20"></button>
 
         </div>
 
         <!-- State 3 - Anhören der Antworten -->
         <div class="final_answer">
             <h2>Wie findest du <span class="variable_question">Avocado</span> ?</h2>
-
+            
             <h3>Antworten</h3>
-            <div class="position_svg">
-                <a><img class="playeremoji" src="img/Koala.svg" width="80"></a>
-                <br>
-                <a><img class="playeremoji" src="img/Giraffe.svg" width="55"></a>
-                <br>
-                <a><img class="playeremoji" src="img/Elefant.svg" width="80"></a>
-                <br>
-                <a><img class="playeremoji" src="img/Leo.svg" width="55"></a>
-            </div>
+            <button><img src="img/playgruen.svg" width="60"></button>
+            <button><img src="img/playgelb.svg" width="60"></button>
+            <button><img src="img/playrot.svg" width="60"></button>
+            <button><img src="img/playblau.svg" width="60"></button>
 
-            <br>
-            <br>
             <button>Weiter</button>
 
         </div>
