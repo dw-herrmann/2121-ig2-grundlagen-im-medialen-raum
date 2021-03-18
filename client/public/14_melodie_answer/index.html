@@ -13,8 +13,6 @@
 
 <body id="body">
 
-    <audio id="audio-c3" preload="auto" src="./sound/C3.mp3"></audio>
-
     <!-- 
         Spieler Anzeige (Menge der Spieler wird dynamisch ergänzt)
         <span> zeigt die Rolle des Fragenstellers an
@@ -23,14 +21,13 @@
     <div class="player">
         <h2>Player</h2>
         <div>
-            <div style="color:#7FBC7D;"> <img class="playeremoji" src="img/Koala.svg" width="20"> Spieler 1 <span>
-                    &#10094 </span></div>
+            <div style="color:#7FBC7D;"> <img class="playeremoji" src="img/Koala.svg" width="20">  Spieler 1 <span> &#10094 </span></div>
             <br>
-            <div style="color:#FFBB6B"> <img class="playeremoji" src="img/Giraffe.svg" width="20"> Spieler 2 </div>
+            <div style="color:#FFBB6B"> <img class="playeremoji" src="img/Giraffe.svg" width="20">  Spieler 2 </div>
             <br>
-            <div style="color:#FC7479;"> <img class="playeremoji" src="img/Elefant.svg" width="20"> Spieler 3</div>
+            <div style="color:#FC7479;"> <img class="playeremoji" src="img/Elefant.svg" width="20">  Spieler 3</div>
             <br>
-            <div style="color:#4BA9DC;"> <img class="playeremoji" src="img/Leo.svg" width="20"> Spieler 4</div>
+            <div style="color:#4BA9DC;"> <img class="playeremoji" src="img/Leo.svg" width="20">  Spieler 4</div>
         </div>
     </div>
 
@@ -56,9 +53,10 @@
         <div class="question">
 
             <div class="questioner">
-                <h2>Wie findest du <input type="text"> ?  <button>Senden</button>
+                <h2>Wie findest du <input type="text"> ?  <button class="button"><img src="img/sendenweiß.svg" width="15"></button>
             </div>
             <div class="answerer">
+                <h2></h2>
                 <h2> Bitte warten... </h2>
                 <h3> Spieler 1 stellt eine Frage. </h3>
                 <div class="loader"></div>
