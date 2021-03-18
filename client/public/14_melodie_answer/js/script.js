@@ -109,40 +109,27 @@ class Game {
 
 
     host_update_all(input) {
-        
+
         // wenn host
         if (players.me.index == 0) {
+
+            let old_player_list = []
             
-            // falls spieler vorhanden, update, ansonsten füge hinzu
-
-            // console.log("this.player_list");
-
-            // console.log(this.player_list);
-            
-
-            // let temp_id_list = []
-            // sucht jedes 
+            // trägt alle ids in array ein
             this.player_list.forEach(element => {
-                temp_id_list.push(element.id)
-                console.log(element.id);
+                old_player_list.push(element.id)
             });
-
-            // console.log(temp_id_list);
-
-            // prüft, ob element in code enthalten
-            // this.player_list.push(input.value.player)
-
-
-
-
-            // this.player_list.forEach(this.player_list => {
-            // });
-
-
-
-
-            if (input.value.player.id) {
-                if (!this.player_list) {}
+            
+            // falls ID bereits existiert
+            if (old_player_list.includes(input.value.player.id)) {
+                // Position herausfinden und updaten
+                let pos = old_player_list.indexOf(input.value.player.id)
+                this.player_list[pos] = input.value.player
+                
+            } else {
+                // player hinzufügem
+                this.player_list.push(input.value.player)
+                
             }
 
             // sende geupdatete liste
@@ -150,7 +137,6 @@ class Game {
                 who: "all",
                 list: this.player_list
             })
-
         }
     }
 
