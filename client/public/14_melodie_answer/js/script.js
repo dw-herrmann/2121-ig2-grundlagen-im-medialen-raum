@@ -76,22 +76,16 @@ let notes = ["c3", "h", "a", "g", "f", "e", "d", "c4"]
 // Töne
 const sounds = {
     instrument_1: {
-        c3: "../sound/C3.m4a",
-        h: "../sound/H.m4a",
-        a: "../sound/A.m4a",
-        g: "../sound/G.m4a",
-        f: "../sound/F.m4a",
-        e: "../sound/E.m4a",
-        d: "../sound/D.m4a",
-        c4: "../sound/C4.m4a"
+        c3: new Audio("../sound/C3.m4a"),
+        h: new Audio("../sound/H.m4a"),
+        a: new Audio("../sound/A.m4a"),
+        g: new Audio("../sound/G.m4a"),
+        f: new Audio("../sound/F.m4a"),
+        e: new Audio("../sound/E.m4a"),
+        d: new Audio("../sound/D.m4a"),
+        c4: new Audio("../sound/C4.m4a")
     }
 }
-
-
-
-
-
-
 
 
 
@@ -113,7 +107,15 @@ class Answer {
     constructor(selected) {
 
     }
-
+    play_singleSound(){
+        $(".melody_box div  div:nth-child(1)").mousedown(c3.play())
+        $(".melody_box div  div:nth-child(2)").click(c3.play())
+        $(".melody_box div  div:nth-child(3)").click()
+        $(".melody_box div  div:nth-child(4)").click()
+        $(".melody_box div  div:nth-child(5)").click()
+        $(".melody_box div  div:nth-child(6)").click()
+        $(".melody_box div  div:nth-child(7)").click()
+    }
     // gespeicherte Melodie abspielen
     play_melody() {
         // Schleife, die pro Spalte ausgewählten Ton abspielt
@@ -123,10 +125,29 @@ class Answer {
 
 }
 
+        $(".melody_box div  div:nth-child(1)").mousedown(sounds.instrument_1.c3.play())
+        $(".melody_box div  div:nth-child(2)").mousedown(c3.play())
+        $(".melody_box div  div:nth-child(3)").click()
+        $(".melody_box div  div:nth-child(4)").click()
+        $(".melody_box div  div:nth-child(5)").click()
+        $(".melody_box div  div:nth-child(6)").click()
+        $(".melody_box div  div:nth-child(7)").click()
 
+
+$("#sounds.instrument_1.c3").trigger('load') 
+
+function play_audio(task) {
+    if (task == 'play') {
+        
+    }
+}
 // Funktion, die nach jeder Runde alles zurücksetzt und variablen leert
 // question, answers, state
 function reset() {}
+
+function mousedown() {
+    $(".melody_box div  div:nth-child(1)").play(sounds.instrument_1.c3.play)
+}
 
 
 function getPlayerList(params) {
