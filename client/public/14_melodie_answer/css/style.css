@@ -86,9 +86,17 @@ div.register div.koala {
     background-color: #7FBC7D40;
 }
 
+div.register div.koala img {
+    width: 85px;
+}
+
 div.register div.giraffe {
     border: 4px solid #FFBB6B;
     background-color: #FFBB6B40;
+}
+
+div.register div.giraffe img {
+    width: 65px;
 }
 
 div.register div.elefant {
@@ -96,9 +104,17 @@ div.register div.elefant {
     background-color: #FC747940;
 }
 
+div.register div.elefant img {
+    width: 100px;
+}
+
 div.register div.leo {
     border: 4px solid #4BA9DC;
     background-color: #4BA9DC40;
+}
+
+div.register div.leo img {
+    width: 61px;
 }
 
 /* State 1 - Fragestellung */
