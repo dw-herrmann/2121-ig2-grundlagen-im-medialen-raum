@@ -209,10 +209,22 @@ class Answer {
     }
 }
 
+//Töne abspielen
+// prüft zeile (tonlage)
 $(".melody_box div  div:nth-child(1)").click(function() {
     console.log("c4")
+    
+    // ton wird abgespielt
     sounds.instrument_1.c4.play()
+    
+    // welche spalte war das?
+
+    // kompletter spalte class wegnehmen
+    
+    // geklicktem Element geben
 });
+
+
 $(".melody_box div  div:nth-child(2)").click(function() {
     console.log("h")
     sounds.instrument_1.h.play()
@@ -240,6 +252,12 @@ $(".melody_box div  div:nth-child(7)").click(function() {
 $(".melody_box div  div:nth-child(8)").click(function() {
     console.log("c3")
     sounds.instrument_1.c3.play()
+});
+
+$(".melody_box div  div").click(function() {
+    $(this).parent().find('.changeColor').removeClass('changeColor')
+    $(this).addClass('changeColor')
+    
 });
 
 
