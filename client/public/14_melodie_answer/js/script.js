@@ -87,7 +87,7 @@ class Game {
     constructor(myID) {
         this.state
         this.question
-        this.player_list;
+        this.player_list = []
     }
 
 
@@ -113,12 +113,22 @@ class Game {
         // wenn host
         if (players.me.index == 0) {
 
-            // falls spieler vorhanden, update, ansonsten füge hinzu
-            this.player_list = "test"
-            console.log("id = " + input.value.player.id);
+            let old_player_list = []
             
+            // trägt alle ids in array ein
+            this.player_list.forEach(element => {
+                old_player_list.push(element.id)
+            });
             
-            if (input.value.player.id) {
+            // falls ID bereits existiert
+            if (old_player_list.includes(input.value.player.id)) {
+                // Position herausfinden und updaten
+                let pos = old_player_list.indexOf(input.value.player.id)
+                this.player_list[pos] = input.value.player
+                
+            } else {
+                // player hinzufügem
+                this.player_list.push(input.value.player)
                 
             }
 
@@ -127,19 +137,16 @@ class Game {
                 who: "all",
                 list: this.player_list
             })
-
         }
     }
 
 
-    
-    cliend_update_player_list(input) {
-        console.log( input.value)
-        // wenn cliend
-        if (players.me.index != 0) {
-            
-            this.player_list = input.value.list
 
+    cliend_update_player_list(input) {
+
+        // wenn cliend, update list
+        if (players.me.index != 0) {
+            this.player_list = input.value.list
         }
     }
 
@@ -242,10 +249,22 @@ class Answer {
     }
 }
 
+//Töne abspielen
+// prüft zeile (tonlage)
 $(".melody_box div  div:nth-child(1)").click(function() {
     console.log("c4")
+    
+    // ton wird abgespielt
     sounds.instrument_1.c4.play()
+    
+    // welche spalte war das?
+
+    // kompletter spalte class wegnehmen
+    
+    // geklicktem Element geben
 });
+
+
 $(".melody_box div  div:nth-child(2)").click(function() {
     console.log("h")
     sounds.instrument_1.h.play()
@@ -275,17 +294,13 @@ $(".melody_box div  div:nth-child(8)").click(function() {
     sounds.instrument_1.c3.play()
 });
 
+$(".melody_box div  div").click(function() {
+    $(this).parent().find('.changeColor').removeClass('changeColor')
+    $(this).addClass('changeColor')
+    
+});
 
-// Funktion, die nach jeder Runde alles zurücksetzt und variablen leert
-// question, answers, state
-function reset() {}
 
-function getPlayerList(params) {
-    // spieler auslesen
-    // andere anfragen nach Liste (ID, Icon und Farbe)
-    // bli bla böubb
-
-}
 
 
 // Status Anzeige
@@ -295,10 +310,12 @@ function set_state(status) {
         $("div.question").show() // Status Fragestellung wieder zeigen
 
         // Prüfen auf Spielerstatus
-        if (players.me) {
-
+        if (players.me.index == 0) {
+            $("div.question>div").hide() // alle verstecken
+            $("div.questioner").show() // Status Fragestellung wieder zeigen
         } else {
-
+            $("div.question>div").hide() // alle verstecken
+            $("div.answerer").show() // Status Fragestellung wieder zeigen
         }
 
     } else if (status == 2) {
