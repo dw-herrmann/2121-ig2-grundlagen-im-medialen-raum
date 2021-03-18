@@ -1,11 +1,15 @@
 // Connecting to server. Don't touch this :-) 
 let socket = io();
 
-// Spieler
-let players = {
-    list: [],
-    me: ""
-}
+
+
+
+
+
+
+// ##### ##### ##### CONNECTION  ##### ##### ##### //
+// ##### ##### ##### CONNECTION  ##### ##### ##### //
+// ##### ##### ##### CONNECTION  ##### ##### ##### //
 
 // Check nach Verbindung
 socket.on('connected', function (msg) {
@@ -20,6 +24,78 @@ function send(domain, value) {
         value: value
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+// ##### ##### ##### PLAYER  ##### ##### ##### //
+// ##### ##### ##### PLAYER  ##### ##### ##### //
+// ##### ##### ##### PLAYER  ##### ##### ##### //
+
+// Vorlage für Spieler
+class Player {
+    constructor(myID) {
+        this.role // = role
+        this.icon // = icon
+        this.color // = color
+    }
+}
+
+// Spieler
+let players = {
+    list: [],
+    me: ""
+}
+
+
+
+
+
+
+
+
+
+// ##### ##### ##### GAME  ##### ##### ##### //
+// ##### ##### ##### GAME  ##### ##### ##### //
+// ##### ##### ##### GAME  ##### ##### ##### //
+
+class Game {
+    constructor(myID) {
+        this.state
+        this.question
+        this.player_list = []
+    }
+
+
+    reset() {
+        // status auf 0 setzen
+        this.state = 1
+        this.question = 0
+    }
+
+
+
+    ask_for_infos() {
+
+    }
+
+}
+
+let game = new Game()
+
+
+
+
+
+
+
 
 
 
@@ -44,30 +120,6 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 
-
-// Vorlage für Spieler
-class Player {
-    constructor(myID) {
-        this.role // = role
-        this.icon // = icon
-        this.color // = color
-    }
-
-    // bei erstem Spieler Spielerliste anfragen
-    getOtherPlayers() {
-
-        // ToDo Eigene ID erfassen
-
-        // Anfrage an andere Spieler stellen
-
-        // Anfragen vergleichen
-        // Neuste Anfrage 
-    }
-
-    getStatus() {
-
-    }
-}
 
 
 
@@ -122,7 +174,6 @@ class Answer {
         // jquery hilft vermutlich sehr bei
 
     }
-
 }
 
         $(".melody_box div  div:nth-child(1)").mousedown(sounds.instrument_1.c3.play())
@@ -141,6 +192,8 @@ function play_audio(task) {
         
     }
 }
+
+
 // Funktion, die nach jeder Runde alles zurücksetzt und variablen leert
 // question, answers, state
 function reset() {}
@@ -160,13 +213,10 @@ function getPlayerList(params) {
 // Status Anzeige
 function set_state(status) {
     if (status == 1) {
-        // alle verstecken
-        $(".content>div").hide()
+        $(".content>div").hide() // alle verstecken
+        $("div.question").show() // Status Fragestellung wieder zeigen
 
-        // Status Fragestellung wieder zeigen
-        $("div.question").show()
-
-        // Prüfen auf 
+        // Prüfen auf Spielerstatus
         if (players.me) {
 
         } else {
@@ -174,33 +224,16 @@ function set_state(status) {
         }
 
     } else if (status == 2) {
-
-        // alle verstecken
-        $(".content>div").hide()
-
-        // Status Antworteingabe wieder zeigen
-        $("div.answering").show()
+        $(".content>div").hide() // alle verstecken
+        $("div.answering").show() // Status Antworteingabe wieder zeigen
     } else if (status == 3) {
-
-        // alle verstecken
-        $(".content>div").hide()
-
-        // Status Antwortvergleich wieder zeigen
-        $("div.final_answer").show()
+        $(".content>div").hide() // alle verstecken
+        $("div.final_answer").show() // Status Antwortvergleich wieder zeigen
     } else {
-
-        // alle verstecken
-        $(".content>div").hide()
-
-        // Status Auswahlbildschirm wieder zeigen
-        $("div.register").show()
+        $(".content>div").hide() // alle verstecken
+        $("div.register").show() // Status Auswahlbildschirm wieder zeigen
     }
 }
-
-
-
-
-
 
 
 
@@ -229,7 +262,25 @@ socket.on('serverEvent', function (input) {
 
             break;
 
-        default:
-            break;
+        case "game":
+            // funktionen zum aufrufen
+            game.reset()
+            switch (input.value) {
+                case "reset":
+                    // funktionen zum aufrufen
+                    game.reset()
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            case "game":
+
+                break;
+
+            default:
+                break;
     }
 });
