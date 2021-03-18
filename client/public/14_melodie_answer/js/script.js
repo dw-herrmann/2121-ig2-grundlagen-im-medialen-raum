@@ -159,15 +159,7 @@ class Answer {
     constructor(selected) {
 
     }
-    play_singleSound(){
-        $(".melody_box div  div:nth-child(1)").mousedown(c3.play())
-        $(".melody_box div  div:nth-child(2)").click(c3.play())
-        $(".melody_box div  div:nth-child(3)").click()
-        $(".melody_box div  div:nth-child(4)").click()
-        $(".melody_box div  div:nth-child(5)").click()
-        $(".melody_box div  div:nth-child(6)").click()
-        $(".melody_box div  div:nth-child(7)").click()
-    }
+
     // gespeicherte Melodie abspielen
     play_melody() {
         // Schleife, die pro Spalte ausgewählten Ton abspielt
@@ -177,8 +169,8 @@ class Answer {
 }
 
 $(".melody_box div  div:nth-child(1)").click(function() {
-    console.log("c3")
-    sounds.instrument_1.c3.play()
+    console.log("c4")
+    sounds.instrument_1.c4.play()
 });
 $(".melody_box div  div:nth-child(2)").click(function() {
     console.log("h")
@@ -205,8 +197,8 @@ $(".melody_box div  div:nth-child(7)").click(function() {
     sounds.instrument_1.d.play()
 });
 $(".melody_box div  div:nth-child(8)").click(function() {
-    console.log("c4")
-    sounds.instrument_1.c4.play()
+    console.log("c3")
+    sounds.instrument_1.c3.play()
 });
 
 
