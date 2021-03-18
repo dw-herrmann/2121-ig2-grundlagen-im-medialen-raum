@@ -25,6 +25,20 @@ function send(domain, value) {
 }
 
 
+// Holt sich Spielerliste
+socket.on('newUsersEvent', function (myID, myIndex, userList) {
+
+    // eigenen Player überprüfen
+    game.send_own_player({
+        trigger: "newUsersEvent",
+        myID: myID,
+        myIndex: myIndex,
+        userList: userList
+    })
+
+});
+
+
 
 
 
@@ -73,42 +87,61 @@ class Game {
     constructor(myID) {
         this.state
         this.question
-        this.player_list
+        this.player_list;
     }
 
 
 
     send_own_player(input) {
-        
         // updated eigenen user
         if (input.trigger == "newUsersEvent") {
             players.me.id = input.myID
-            players.me.id = input.myIndex
+            players.me.index = input.myIndex
         }
 
         // eigenen Player verschicken
         send('players', {
             who: 'own',
-            value: players.me
+            player: players.me
         })
 
-        // wenn host
-        if (players.me.index = 0) {
-
-        }
-    
     }
 
 
     host_update_all(input) {
 
         // wenn host
-        if (players.me.index = 0) {
+        if (players.me.index == 0) {
+
+            // falls spieler vorhanden, update, ansonsten füge hinzu
+            this.player_list = "test"
+            console.log("id = " + input.value.player.id);
+            
+            
+            if (input.value.player.id) {
+                
+            }
+
+            // sende geupdatete liste
+            send("players", {
+                who: "all",
+                list: this.player_list
+            })
 
         }
     }
 
 
+    
+    cliend_update_player_list(input) {
+        console.log( input.value)
+        // wenn cliend
+        if (players.me.index != 0) {
+            
+            this.player_list = input.value.list
+
+        }
+    }
 
 
 
@@ -317,7 +350,7 @@ function set_state(status) {
 /* Events erhalten und interpretieren */
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
-    console.log(input);
+    // console.log(input);
 
     switch (input.domain) {
         case "status":
@@ -343,7 +376,12 @@ socket.on('serverEvent', function (input) {
             switch (input.value.who) {
                 case "own":
                     // funktionen zum aufrufen
-                    host_update_all(input)
+                    game.host_update_all(input)
+                    break;
+
+                case "all":
+                    // Spielerliste updaten
+                    game.cliend_update_player_list(input)
                     break;
 
                 default:
