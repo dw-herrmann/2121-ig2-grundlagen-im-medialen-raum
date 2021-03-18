@@ -73,42 +73,57 @@ class Game {
     constructor(myID) {
         this.state
         this.question
-        this.player_list
+        this.player_list;
     }
 
 
 
     send_own_player(input) {
-        
         // updated eigenen user
         if (input.trigger == "newUsersEvent") {
             players.me.id = input.myID
-            players.me.id = input.myIndex
+            players.me.index = input.myIndex
         }
 
         // eigenen Player verschicken
         send('players', {
             who: 'own',
-            value: players.me
+            player: players.me
         })
 
-        // wenn host
-        if (players.me.index = 0) {
-
-        }
-    
     }
 
 
     host_update_all(input) {
 
         // wenn host
-        if (players.me.index = 0) {
+        if (players.me.index == 0) {
+
+            // falls spieler vorhanden, update, ansonsten füge hinzu
+            this.player_list = "test"
+            console.log(input.value.player);
+
+
+            // sende geupdatete liste
+            send("players", {
+                who: "all",
+                list: this.player_list
+            })
 
         }
     }
 
 
+    
+    cliend_update_player_list(input) {
+        console.log( input.value)
+        // wenn cliend
+        if (players.me.index != 0) {
+            
+            this.player_list = input.value.list
+
+        }
+    }
 
 
 
@@ -200,15 +215,7 @@ class Answer {
     constructor(selected) {
 
     }
-    play_singleSound(){
-        $(".melody_box div  div:nth-child(1)").mousedown(c3.play())
-        $(".melody_box div  div:nth-child(2)").click(c3.play())
-        $(".melody_box div  div:nth-child(3)").click()
-        $(".melody_box div  div:nth-child(4)").click()
-        $(".melody_box div  div:nth-child(5)").click()
-        $(".melody_box div  div:nth-child(6)").click()
-        $(".melody_box div  div:nth-child(7)").click()
-    }
+
     // gespeicherte Melodie abspielen
     play_melody() {
         // Schleife, die pro Spalte ausgewählten Ton abspielt
@@ -218,8 +225,8 @@ class Answer {
 }
 
 $(".melody_box div  div:nth-child(1)").click(function() {
-    console.log("c3")
-    sounds.instrument_1.c3.play()
+    console.log("c4")
+    sounds.instrument_1.c4.play()
 });
 $(".melody_box div  div:nth-child(2)").click(function() {
     console.log("h")
@@ -246,8 +253,8 @@ $(".melody_box div  div:nth-child(7)").click(function() {
     sounds.instrument_1.d.play()
 });
 $(".melody_box div  div:nth-child(8)").click(function() {
-    console.log("c4")
-    sounds.instrument_1.c4.play()
+    console.log("c3")
+    sounds.instrument_1.c3.play()
 });
 
 
@@ -307,7 +314,7 @@ function set_state(status) {
 /* Events erhalten und interpretieren */
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
-    console.log(input);
+    // console.log(input);
 
     switch (input.domain) {
         case "status":
@@ -333,7 +340,12 @@ socket.on('serverEvent', function (input) {
             switch (input.value.who) {
                 case "own":
                     // funktionen zum aufrufen
-                    host_update_all(input)
+                    game.host_update_all(input)
+                    break;
+
+                case "all":
+                    // Spielerliste updaten
+                    game.cliend_update_player_list(input)
                     break;
 
                 default:

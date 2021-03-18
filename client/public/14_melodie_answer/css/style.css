@@ -151,6 +151,11 @@ div.answering .melody_box>div>div {
     margin: 5px;
 }
 
+/* Farbe der Kästchen ändern*/
+.changeColor_c3 {
+    background-color: aqua;
+    
+}
 
 
 
