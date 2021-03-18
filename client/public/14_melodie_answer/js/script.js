@@ -6,7 +6,6 @@ let socket = io();
 
 
 
-
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
@@ -42,16 +41,20 @@ function send(domain, value) {
 // Vorlage für Spieler
 class Player {
     constructor(myID) {
-        this.role // = role
-        this.icon // = icon
-        this.color // = color
+        this.id = ""
+        this.index = ""
+        this.role = 1
+        this.icon = 1
+        this.color = 1
     }
 }
 
+
+
 // Spieler
 let players = {
-    list: [],
-    me: ""
+    me: new Player,
+    list: []
 }
 
 
@@ -70,21 +73,62 @@ class Game {
     constructor(myID) {
         this.state
         this.question
-        this.player_list = []
-    }
-
-
-    reset() {
-        // status auf 0 setzen
-        this.state = 1
-        this.question = 0
+        this.player_list
     }
 
 
 
-    ask_for_infos() {
+    send_own_player(input) {
+        
+        // updated eigenen user
+        if (input.trigger == "newUsersEvent") {
+            players.me.id = input.myID
+            players.me.id = input.myIndex
+        }
 
+        // eigenen Player verschicken
+        send('players', {
+            who: 'own',
+            value: players.me
+        })
+
+        // wenn host
+        if (players.me.index = 0) {
+
+        }
+    
     }
+
+
+    host_update_all(input) {
+
+        // wenn host
+        if (players.me.index = 0) {
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // reset() {
+    //     // status auf 0 setzen
+    //     this.state = 1
+    //     this.question = 0
+    // }
+
+
+    // ask_for_infos() {
+
+    // }
 
 }
 
@@ -103,16 +147,13 @@ let game = new Game()
 // Holt sich Spielerliste
 socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
-    // checkt nach eigener ID
-    players.me.id = myID
-
-    userList[0].since
-    userList.forEach(element => {
-
-        if (players.me.id == element.id) {
-            players.me.since = element.since
-        }
-    });
+    // eigenen Player überprüfen
+    game.send_own_player({
+        trigger: "newUsersEvent",
+        myID: myID,
+        myIndex: myIndex,
+        userList: userList
+    })
 
 });
 
@@ -266,6 +307,7 @@ function set_state(status) {
 /* Events erhalten und interpretieren */
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
+    console.log(input);
 
     switch (input.domain) {
         case "status":
@@ -275,8 +317,6 @@ socket.on('serverEvent', function (input) {
             break;
 
         case "game":
-            // funktionen zum aufrufen
-            game.reset()
             switch (input.value) {
                 case "reset":
                     // funktionen zum aufrufen
@@ -287,12 +327,25 @@ socket.on('serverEvent', function (input) {
                 default:
                     break;
             }
+            break;
 
-            case "game":
+        case "players":
+            switch (input.value.who) {
+                case "own":
+                    // funktionen zum aufrufen
+                    host_update_all(input)
+                    break;
 
-                break;
+                default:
+                    break;
+            }
+            break;
 
-            default:
-                break;
+        case "game":
+
+            break;
+
+        default:
+            break;
     }
 });
