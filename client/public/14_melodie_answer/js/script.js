@@ -73,39 +73,37 @@ class Game {
     constructor(myID) {
         this.state
         this.question
-        this.player_list
+        this.player_list;
     }
 
 
 
     send_own_player(input) {
-        
         // updated eigenen user
         if (input.trigger == "newUsersEvent") {
             players.me.id = input.myID
-            players.me.id = input.myIndex
+            players.me.index = input.myIndex
         }
 
         // eigenen Player verschicken
         send('players', {
             who: 'own',
-            value: players.me
+            player: players.me
         })
-
-        // wenn host
-        if (players.me.index = 0) {
-
-        }
-    
+        
     }
 
 
     host_update_all(input) {
 
         // wenn host
-        if (players.me.index = 0) {
+        if (players.me.index == 0) {
+            console.log(this.player_list);
 
+            // falls spieler vorhanden, update, ansonsten füge hinzu
+            console.log(input.value.player);
         }
+
     }
 
 
@@ -307,7 +305,7 @@ function set_state(status) {
 /* Events erhalten und interpretieren */
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
-    console.log(input);
+    // console.log(input);
 
     switch (input.domain) {
         case "status":
@@ -333,7 +331,7 @@ socket.on('serverEvent', function (input) {
             switch (input.value.who) {
                 case "own":
                     // funktionen zum aufrufen
-                    host_update_all(input)
+                    game.host_update_all(input)
                     break;
 
                 default:
