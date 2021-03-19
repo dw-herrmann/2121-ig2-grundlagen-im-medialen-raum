@@ -170,11 +170,7 @@ class Game {
 
             console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
 
-            // sende game update
-            send("game", {
-                order: "quest",
-                content: this
-            })
+            // ui.update()
         }
     }
 
@@ -190,13 +186,32 @@ class Game {
 
 
 
-    update_game(input) {
+
+
+    update_send() {
+        // wenn cliend, update list
+        if (players.me.index == 0) {
+            // sende game update
+            send("game", {
+                order: "update",
+                content: game
+            })
+        }
+    }
+
+
+    update_receive(input) {
+        console.log("update_receive");
+        console.log(input);
+
         // wenn cliend, update list
         if (players.me.index != 0) {
             this.question = input.question
             this.state = input.state
             this.player_list = input.player_list
         }
+
+        ui.update()
     }
 
     // CLIENT new game
@@ -210,6 +225,30 @@ class Game {
 }
 
 let game = new Game()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -294,9 +333,16 @@ class UI {
         console.log(input);
         game.question = input
         game.state = 2
-        // ui.update()
 
+
+        // sende game update mit Antwort
+        send("game", {
+            order: "question",
+            content: game
+        })
     }
+
+
 
     submit_answer() {
 
@@ -322,6 +368,7 @@ class UI {
 
     // show now-state
     show_now_state() {
+        console.log("show_now_state");
 
         // already select 
         if (
@@ -331,12 +378,14 @@ class UI {
         ) {
             // verstecke 
             console.log("state 0");
-            $("body > .player").hide() // alle verstecken
+            $("body > .player").show()
             $(".content>div").hide() // alle verstecken
+            $("div.register").show() // Status Fragestellung wieder zeigen
 
         } else {
 
             if (game.state == 1) {
+                $("body > .player").show() // Zeigt Spieler
                 console.log("state 1");
                 $(".content>div").hide() // alle verstecken
                 $("div.question").show() // Status Fragestellung wieder zeigen
@@ -352,16 +401,14 @@ class UI {
 
             } else if (game.state == 2) {
                 console.log("state 2");
+                $("body > .player").show() // Zeigt Spieler
                 $(".content>div").hide() // alle verstecken
                 $("div.answering").show() // Status Antworteingabe wieder zeigen
             } else if (game.state == 3) {
                 console.log("state 3");
+                $("body > .player").hide() // versteckt Spieler
                 $(".content>div").hide() // alle verstecken
                 $("div.final_answer").show() // Status Antwortvergleich wieder zeigen
-            } else {
-                console.log("state 4");
-                $(".content>div").hide() // alle verstecken
-                $("div.register").show() // Status Auswahlbildschirm wieder zeigen
             }
         }
     }
@@ -389,6 +436,11 @@ class UI {
     }
 
 
+    show_question() {
+        $(".variable_question").text(game.question)
+    }
+
+
 
 
 
@@ -400,6 +452,7 @@ class UI {
 
         this.show_players()
 
+        this.show_question()
         this.show_now_state()
 
     }
@@ -475,16 +528,17 @@ $(".questioner input").keyup(function (handler) {
     // Antwort senden
     if (handler.keyCode == 13) {
 
-        game.send_question(this.value)
+        ui.submit_question(this.value)
     }
-    console.log(this);
 });
 
 $(".questioner .button").click(function () {
-
     // Antwort senden
-    game.send_question($(".questioner input")[0].value)
+    ui.submit_question($(".questioner input")[0].value)
 });
+
+
+
 
 
 
@@ -696,6 +750,9 @@ $(".melody_box div  div").click(function () {
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
 
+    // console.log("serverEvent");
+    // console.log(input);
+
 
     switch (input.domain) {
         case "status":
@@ -712,9 +769,17 @@ socket.on('serverEvent', function (input) {
 
                     break;
 
-                case "update":
+                case "question":
                     // funktionen zum aufrufen
-                    game.reset()
+                    console.log("input.value.content");
+                    // console.log(input.value.content);
+                    game.update_receive(input.value.content)
+
+                    break;
+
+                case "update":
+                    // game updaten
+                    game.update_receive(input.value.content)
 
                     break;
 
