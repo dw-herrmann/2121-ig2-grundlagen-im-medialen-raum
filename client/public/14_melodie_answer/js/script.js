@@ -108,6 +108,7 @@ class Game {
     // HOST sends updated player list to CLIENTS
     host_update_player_list(input) {
 
+        console.log("host_update_player_list");
         // wenn host
         if (players.me.index == 0) {
 
@@ -166,8 +167,9 @@ class Game {
 
             console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
 
-            ui.update()
         }
+        
+        ui.update()
     }
 
 
@@ -308,6 +310,8 @@ class UI {
     // // Zeigt aktive Spielerliste oben links an
     show_players() {
         let add_to_html = []
+
+        console.log(game.player_list.active);
 
         // jeden Player ansehen
         for (let index = 0; index < game.player_list.active.length; index++) {
@@ -487,11 +491,11 @@ class UI {
         console.log("update");
         this.show_avatars()
 
-        this.show_players()
-
+        
         this.show_question()
         this.show_now_state()
-
+        
+        this.show_players()
     }
 }
 
