@@ -168,17 +168,12 @@ class Game {
                 }
             }
 
-            // sende geupdatete liste
-            send("players", {
-                who: "list",
-                list: this.player_list
-            })
             console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
 
             // sende game update
             send("game", {
                 order: "quest",
-                content: this.player_list
+                content: this
             })
         }
     }
@@ -194,25 +189,14 @@ class Game {
     }
 
 
-    
+
     update_game(input) {
         // wenn cliend, update list
         if (players.me.index != 0) {
-            this.player_list = input
+            this.question = input.question
+            this.state = input.state
+            this.player_list = input.player_list
         }
-    }
-
-
-    // HOST sends question
-    send_question(input) {
-
-        console.log(input);
-
-        this.question = input
-
-        game.state = 2
-        // ui.update()
-
     }
 
     // CLIENT new game
@@ -304,6 +288,15 @@ class UI {
 
     }
 
+    // HOST sends question
+    submit_question(input) {
+
+        console.log(input);
+        game.question = input
+        game.state = 2
+        // ui.update()
+
+    }
 
     submit_answer() {
 
@@ -499,7 +492,7 @@ $(".questioner .button").click(function () {
 // bei klick auf Antwort senden
 $(".answering > button.submit").click(function () {
 
-    ui.submit_answer()
+    ui.submit_answer(this)
 
     ui.update()
 });
