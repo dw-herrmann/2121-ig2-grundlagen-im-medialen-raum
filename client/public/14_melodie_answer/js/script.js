@@ -168,15 +168,15 @@ class Game {
                 }
             }
 
-            // sende geupdatete liste
-            send("players", {
-                who: "list",
-                list: this.player_list
-            })
             console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
+
+            // sende game update
+            send("game", {
+                order: "quest",
+                content: this
+            })
         }
     }
-
 
 
     // CLIENT updates player list
@@ -190,12 +190,13 @@ class Game {
 
 
 
-    // HOST sends question
-    send_question(input) {
-
-        game.state = 2
-        ui.update()
-
+    update_game(input) {
+        // wenn cliend, update list
+        if (players.me.index != 0) {
+            this.question = input.question
+            this.state = input.state
+            this.player_list = input.player_list
+        }
     }
 
     // CLIENT new game
@@ -253,10 +254,16 @@ class UI {
 
 
     select_avatar(input) {
+
         let selected = $(input).attr('class')
+
+        // Setzt bei Spieler Avatar
         players.me.avatar = ui.avatars.list.indexOf(selected)
 
-        console.log(players.me.avatar);
+        // Setzt Avatar auf used
+        ui.avatars.used[ui.avatars.list.indexOf(selected)] = 1
+
+        console.log("selects " + this.avatars.list[players.me.avatar]);
 
         game.send_own_player()
     }
@@ -281,30 +288,33 @@ class UI {
 
     }
 
+    // HOST sends question
+    submit_question(input) {
+
+        console.log(input);
+        game.question = input
+        game.state = 2
+        // ui.update()
+
+    }
 
     submit_answer() {
 
         let answer = []
 
         $('.melody_box').children().each(function () {
-            // $(this).find('.changeColor')
 
             for (let index = 0; index < $('.melody_box > div').length; index++) {
                 console.log(
-                    $('.melody_box > div')[index]
-                    
+                    $('.melody_box > div')[index].value
+
                 );
 
             }
 
-            // $('.melody_box').children().index(
-            //     $('.melody_box').children().find('changeColor')
-            // )
-
-            // answer.push("")
         });
 
-        console.log(answer);
+        console.log(answer).value;
     }
 
 
@@ -361,22 +371,32 @@ class UI {
 
     show_avatars() {
 
+        $(".register .avatar > div").each(function (element) {
 
-        console.log(game.player_list.active);
+            console.log("avatar: " + element + ", used " + ui.avatars.used[element]);
 
-        console.log($(game.player_list.active));
-        
+            if (ui.avatars.used[element] == 1) {
+                $(
+                    $(".register .avatar > div")[element]
+                ).addClass('selected')
+            } else {
+                $(
+                    $(".register .avatar > div")[element]
+                ).removeClass('selected')
+            }
+        })
+
     }
 
 
 
 
-    
+
     // UI auf neusten stand updaten
     update() {
 
         console.log("update");
-
+        this.show_avatars()
 
         this.show_players()
 
@@ -472,9 +492,52 @@ $(".questioner .button").click(function () {
 // bei klick auf Antwort senden
 $(".answering > button.submit").click(function () {
 
-    ui.submit_answer()
+    ui.submit_answer(this)
 
     ui.update()
+});
+
+
+
+
+$(".answering > button.play").click(function(){
+    playMelody();
+})
+
+let playCounter = 1;
+
+function playMelody() {
+   if (playCounter == 9) {
+        playCounter = 1;
+        return;
+    }
+
+    let playIndex = $(".melody_box div:nth-child("+playCounter+")").find('.changeColor').index();
+
+    if (playIndex !== -1) {
+        sounds.instrument_2[playIndex].pause()
+        sounds.instrument_2[playIndex].currentTime = 0;
+        sounds.instrument_2[playIndex].play()
+    }
+
+    $(".melody_box").find('.active').removeClass('active');
+    $(".melody_box div:nth-child("+playCounter+")").addClass('active');
+
+
+    playCounter++;
+
+    setTimeout(() => {
+        playMelody();
+    }, 500);
+};
+
+
+// bei klick auf Antwort senden
+$(".answering > button.submit").click(function () {
+
+    //ui.submit_answer()
+
+    //ui.update()
 });
 
 
@@ -483,25 +546,14 @@ $(".answering > button.submit").click(function () {
 
 
 
+// let notes = ["./sound/C3.mp3","./sound/H.mp3","./sound/A.mp3","./sound/G.mp3","./sound/F.mp3","./sound/E.mp3",
+// "./sound/D.mp3","./sound/C4.mp3"
+// ]
+// let note = []
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// for (i=0; i<notes.length; i++) {
+//     note[i]= new Audio("Audio/"+notes[i]);
+//   }
 
 
 
@@ -644,6 +696,7 @@ $(".melody_box div  div").click(function () {
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
 
+
     switch (input.domain) {
         case "status":
             // funktionen zum aufrufen
@@ -652,8 +705,14 @@ socket.on('serverEvent', function (input) {
             break;
 
         case "game":
-            switch (input.value) {
+            switch (input.value.order) {
                 case "reset":
+                    // funktionen zum aufrufen
+                    game.reset()
+
+                    break;
+
+                case "update":
                     // funktionen zum aufrufen
                     game.reset()
 
