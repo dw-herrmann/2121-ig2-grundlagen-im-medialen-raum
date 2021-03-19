@@ -73,6 +73,11 @@ div.register .avatar {
     justify-content: center;
 }
 
+div.register .selected {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 
 div.register .avatar div {
     width: 120px;
