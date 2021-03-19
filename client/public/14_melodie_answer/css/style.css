@@ -177,13 +177,21 @@ div.answering .melody_box>div>div {
 /* Farbe der Kästchen ändern*/
 div.answering .melody_box>div .changeColor {
     background-color: aqua;
-    
 }
 
+div.answering div.anpl {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
+div.answering div.anpl .play {
+    margin: 5px;
+}
 
-
-
+div.answering div.anpl .submit {
+    margin: 5px;
+}
 
 
 /* State 3 - Anhören der Antworten */
@@ -200,9 +208,9 @@ div.position_svg {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    
 } */
-div.final_answer .playbutton div{
+
+/* div.final_answer .playbutton div{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -216,7 +224,7 @@ div.final_answer .playbutton div{
 
 
 
-}
+} */
 
 /* div.final_anwer .avatar div {
     width: 120px;
