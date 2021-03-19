@@ -162,6 +162,7 @@ div.question {}
 div.answering .melody_box {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 div.answering .melody_box>div {
@@ -170,74 +171,61 @@ div.answering .melody_box>div {
 }
 
 div.answering .melody_box>div>div {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin: 5px;
-    border: 2px solid rgb(99, 99, 99);
     border-radius: 4px;
+    background-color: #333333;
 }
 
 /* Farbe der Kästchen ändern*/
-.changeColor {
-    background-color: aqua;
-    
+div.answering .melody_box>div .changeColor {
+    background-color: rgb(248, 248, 220);
 }
 
+div.answering div.anpl {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
+div.answering div.anpl .play {
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
 
-
-
+div.answering div.anpl .submit {
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
 
 
 /* State 3 - Anhören der Antworten */
 .content div.final_answer {}
 
-/* div.final_answer .avatar {
+div.final_answer .finalpage, .playbutton {
     display: flex;
+flex-direction: row;
     justify-content: center;
 }
 
-div.position_svg {
-    display: flex;
-    width: 200px;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
     
-} */
-div.final_answer .playbutton div{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+div.final_answer .playbutton {
     display: flex;
-    width: 600px;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    margin: 10px;
 
+} */
 
-
+div.final_answer .playbutton button {
+    width: 100px;
+    margin: 50px;
 
 }
-
-/* div.final_anwer .avatar div {
-    width: 120px;
-    height: 120px;
-    margin: 30px;
-    top: 200px;
-    left: 200px;
-    flex-direction: column;
-    border-radius: 200px;
-    border: 4px solid #7FBC7D; */
-    /* display: inline-block; */
-/* } */
-
-/* div.final_answer .avatar div img {
-    margin-left: 50%;
-    margin-top: 50%;
-    transform: translate(-50%, -50%);
-} */
 
 div.final_answer .position_svg div {
         display: flex;
@@ -251,6 +239,7 @@ div.final_answer .position_svg div {
         border-radius: 50%;
         position: relative;
     }
+
 div.final_answer .position_svg div img {
     position: absolute;
     top: 50%;
