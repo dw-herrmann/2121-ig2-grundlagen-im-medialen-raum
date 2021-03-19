@@ -45,11 +45,7 @@ class Player {
         this.id
         this.index
         this.avatar
-
-        // Antworten
-        // pro Spieler ein Antwort-Objekt
-        // answer.push( new Answer({col_1:"a", col_2:"a", col_3:"a", col_4:"a", col_5:"a", col_6:"a", col_7:"a", col_8:"a"}) )
-        this.answer = ""
+        this.answer = []
     }
 }
 
@@ -170,7 +166,7 @@ class Game {
 
             console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
 
-            // ui.update()
+            ui.update()
         }
     }
 
@@ -347,23 +343,62 @@ class UI {
     submit_answer() {
 
         let answer = []
+        $('.melody_box').children().each(function (index) {
 
-        $('.melody_box').children().each(function () {
+            $(this).children().each(function (index_inner) {
 
-            for (let index = 0; index < $('.melody_box > div').length; index++) {
-                console.log(
-                    $('.melody_box > div')[index].value
+                if ($(this).hasClass("changeColor")) {
+                    answer[index] = index_inner
+                }
+            })
 
-                );
-
+            if (answer[index] == undefined) {
+                answer[index] = "pause"
             }
 
-        });
+            console.log(answer[index]);
 
-        console.log(answer).value;
+        })
+
+        players.me.answer = answer.reverse()
+
+        game.send_own_player()
+
+
     }
 
+    play_answer() {
 
+        console.log(game.player_list.all[0].answer);
+        
+        let counter = game.player_list.all[0].answer.length
+        
+        // Töne abspielen
+        playSound()
+        
+        function playSound() {
+
+            let melody = game.player_list.all[0].answer
+
+            counter--
+            console.log(counter + " = " + melody[counter]);
+            
+            if (melody[counter] != "pause") {
+                
+                sounds.instrument_2[melody[counter]].currentTime = 0
+                sounds.instrument_2[melody[counter]].play()
+                
+            }
+            
+
+            if (counter > 0) {
+                setTimeout(() => {
+                    playSound();
+                }, 500);
+            }
+        }
+
+    }
 
 
     // show now-state
@@ -399,16 +434,18 @@ class UI {
                     $("div.answerer").show() // Status Fragestellung wieder zeigen
                 }
 
-            } else if (game.state == 2) {
-                console.log("state 2");
-                $("body > .player").show() // Zeigt Spieler
-                $(".content>div").hide() // alle verstecken
-                $("div.answering").show() // Status Antworteingabe wieder zeigen
-            } else if (game.state == 3) {
-                console.log("state 3");
-                $("body > .player").hide() // versteckt Spieler
-                $(".content>div").hide() // alle verstecken
-                $("div.final_answer").show() // Status Antwortvergleich wieder zeigen
+            } else if (game.state == 2 || game.state == 3) {
+                if (players.me.answer.length > 0) {
+                    console.log("state 3");
+                    $("body > .player").hide() // versteckt Spieler
+                    $(".content>div").hide() // alle verstecken
+                    $("div.final_answer").show() // Status Antwortvergleich wieder zeigen
+                } else {
+                    console.log("state 2");
+                    $("body > .player").show() // Zeigt Spieler
+                    $(".content>div").hide() // alle verstecken
+                    $("div.answering").show() // Status Antworteingabe wieder zeigen
+                }
             }
         }
     }
@@ -511,6 +548,7 @@ let ui = new UI()
 // ##### ##### ##### EVENT LISTENER  ##### ##### ##### //
 
 
+/* State 0 - Anmeldung */
 
 // bei klick auf avatar
 $(".avatar > div").click(function () {
@@ -522,7 +560,7 @@ $(".avatar > div").click(function () {
 
 
 
-// bei klick auf avatar
+/* State 1 - Fragestellung */
 $(".questioner input").keyup(function (handler) {
 
     // Antwort senden
@@ -540,21 +578,34 @@ $(".questioner .button").click(function () {
 
 
 
+/* State 2 - Antwort */
+$(".answering button.submit").click(function () {
 
-
-
-// bei klick auf Antwort senden
-$(".answering > button.submit").click(function () {
-
-    ui.submit_answer(this)
+    ui.submit_answer()
 
     ui.update()
+
 });
 
 
+/* State 3 - Antworten anhören */
+$(".final_answer button#koala").click(function () {
+    ui.play_answer('koala')
+})
 
 
-$(".answering > button.play").click(function(){
+
+
+
+
+
+
+
+
+
+
+
+$(".answering button.play").click(function () {
     playMelody();
 })
 
@@ -586,13 +637,6 @@ function playMelody() {
 };
 
 
-// bei klick auf Antwort senden
-$(".answering > button.submit").click(function () {
-
-    //ui.submit_answer()
-
-    //ui.update()
-});
 
 
 
@@ -841,7 +885,9 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 
-
+// debug
+// players.me.answer = [7, "pause", 7, "pause", 7, "pause", 7, "pause"]
+// players.me.avatar = 2
 
 
 
