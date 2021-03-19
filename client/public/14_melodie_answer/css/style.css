@@ -175,7 +175,7 @@ div.answering .melody_box>div>div {
 }
 
 /* Farbe der Kästchen ändern*/
-.changeColor {
+div.answering .melody_box>div .changeColor {
     background-color: aqua;
     
 }
