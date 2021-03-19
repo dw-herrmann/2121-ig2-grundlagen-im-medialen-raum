@@ -77,6 +77,10 @@ div.register .selected {
     opacity: 0.5;
     pointer-events: none;
 }
+div.register{
+    /* display: inline-block; */
+    border-left: 4px solid white;   
+}
 
 
 div.register .avatar div {
@@ -269,9 +273,11 @@ div.final_answer div.leo {
     border: 4px solid #4BA9DC;
     background-color: #4BA9DC40;
 } 
-
-
-
+div.final_answer .position_svg {
+    padding-right: 40px;
+    display: inline-block;
+    border-right: 4px solid white;    
+}
 
 
 
