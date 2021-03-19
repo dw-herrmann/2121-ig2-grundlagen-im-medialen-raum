@@ -7,7 +7,7 @@ let socket = io();
 
 
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
-// ##### ##### ##### CONNECTION  ##### ##### ##### //
+// ----- ----- ----- CONNECTION  ----- ----- ----- //
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
 
 // Check nach Verbindung
@@ -25,19 +25,6 @@ function send(domain, value) {
 }
 
 
-// Holt sich Spielerliste
-socket.on('newUsersEvent', function (myID, myIndex, userList) {
-
-    // eigenen Player überprüfen
-    game.send_own_player({
-        trigger: "newUsersEvent",
-        myID: myID,
-        myIndex: myIndex,
-        userList: userList
-    })
-
-});
-
 
 
 
@@ -49,7 +36,7 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 // ##### ##### ##### PLAYER  ##### ##### ##### //
-// ##### ##### ##### PLAYER  ##### ##### ##### //
+// ----- ----- ----- PLAYER  ----- ----- ----- //
 // ##### ##### ##### PLAYER  ##### ##### ##### //
 
 // Vorlage für Spieler
@@ -57,7 +44,11 @@ class Player {
     constructor() {
         this.id
         this.index
-        this.avatar = 1
+        this.avatar
+
+        // Antworten
+        // pro Spieler ein Antwort-Objekt
+        // answer.push( new Answer({col_1:"a", col_2:"a", col_3:"a", col_4:"a", col_5:"a", col_6:"a", col_7:"a", col_8:"a"}) )
         this.answer = ""
     }
 }
@@ -79,23 +70,19 @@ let players = {
 
 
 // ##### ##### ##### GAME  ##### ##### ##### //
-// ##### ##### ##### GAME  ##### ##### ##### //
+// ----- ----- ----- GAME  ----- ----- ----- //
 // ##### ##### ##### GAME  ##### ##### ##### //
 
 class Game {
     constructor() {
-        this.state
+        // (1 = Fragestellung, 2 = Antworteingabe, 3 = Antwortvergleich)
+        this.state = 1
+        // Variable für Frage pro Runde
         this.question
         this.player_list = {
             all: [],
             active: []
         }
-        this.avatars = [
-            "koala",
-            "giraffe",
-            "elefant",
-            "leo"
-        ]
     }
 
     // ##### COMMUNICATION  ##### //
@@ -103,11 +90,14 @@ class Game {
     // ##### COMMUNICATION  ##### //
 
     // CLIENT sents player info to HOST
-    send_own_player(input) {
+    send_own_player(input = {}) {
+
         // updated eigenen user
-        if (input.trigger == "newUsersEvent") {
-            players.me.id = input.myID
-            players.me.index = input.myIndex
+        if (input.hasOwnProperty("trigger")) {
+            if (input.trigger == "newUsersEvent") {
+                players.me.id = input.myID
+                players.me.index = input.myIndex
+            }
         }
 
         // eigenen Player verschicken
@@ -121,16 +111,20 @@ class Game {
 
     // HOST sends updated player list to CLIENTS
     host_update_player_list(input) {
+
         // wenn host
         if (players.me.index == 0) {
+
             // host hinzufügen
             let old_player_list = {
                 all: [],
                 active: []
             }
+
             if (this.player_list.length == 0) {
                 this.player_list.all.push(players.me)
             }
+
             // trägt alle IDs in array ein
             this.player_list.all.forEach(element => {
                 old_player_list.all.push(element.id)
@@ -142,20 +136,10 @@ class Game {
                 let pos = old_player_list.all.indexOf(input.value.player.id)
                 this.player_list.all[pos] = input.value.player
             } else {
-                // player hinzufügem
+                // player hinzufügen
                 this.player_list.all.push(input.value.player)
             }
 
-
-            // falls ID bereits existiert
-            if (old_player_list.all.includes(input.value.player.id)) {
-                // Position herausfinden und updaten
-                let pos = old_player_list.all.indexOf(input.value.player.id)
-                this.player_list.all[pos] = input.value.player
-            } else {
-                // player hinzufügem
-                this.player_list.all.push(input.value.player)
-            }
             // sortiert nach index
             function compare(a, b) {
                 if (a.index < b.index) {
@@ -166,12 +150,20 @@ class Game {
                 }
                 return 0;
             }
+
+
+
             // sortieren
             this.player_list.all.sort(compare);
+
             // active leeren
             this.player_list.active = []
+
             for (let index = 0; index < this.player_list.all.length; index++) {
-                if (this.player_list.all[index].avatar != false) {
+                if (
+                    this.player_list.all[index].avatar !== false &&
+                    this.player_list.all[index].avatar !== undefined
+                ) {
                     this.player_list.active.push(this.player_list.all[index])
                 }
             }
@@ -195,12 +187,25 @@ class Game {
             console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
         }
     }
+
+
+
+    // HOST sends question
+    send_question(input) {
+
+        game.state = 2
+        ui.update()
+
+    }
+
     // CLIENT new game
     reset() {
         // status auf 0 setzen
         this.state = 1
         this.question = 0
     }
+
+
 }
 
 let game = new Game()
@@ -244,14 +249,23 @@ class UI {
             ]
         }
     }
-    select_avatar() {}
+
+
+
+    select_avatar(input) {
+        let selected = $(input).attr('class')
+        players.me.avatar = ui.avatars.list.indexOf(selected)
+
+        console.log(players.me.avatar);
+
+        game.send_own_player()
+    }
 
 
 
     // // Zeigt aktive Spielerliste oben links an
     show_players() {
         let add_to_html = []
-        console.log(game.player_list.active);
 
         // jeden Player ansehen
         for (let index = 0; index < game.player_list.active.length; index++) {
@@ -259,10 +273,71 @@ class UI {
                 '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + ui.avatars.list[game.player_list.active[index].avatar] + '.svg" width="20"> </div>'
             )
         }
-        console.log(add_to_html);
 
         $("div.player div").empty();
         $("div.player div").append(add_to_html);
+
+        add_to_html = []
+
+    }
+
+
+    // show now-state
+    show_now_state() {
+
+        // already select 
+        if (
+            // falls "players.me.avatar" nicht existiert
+            // players.me.avatar == false ||
+            players.me.avatar == undefined
+        ) {
+            // verstecke 
+            console.log("state 0");
+            $("body > .player").hide() // alle verstecken
+            $(".content>div").hide() // alle verstecken
+
+        } else {
+
+            if (game.state == 1) {
+                console.log("state 1");
+                $(".content>div").hide() // alle verstecken
+                $("div.question").show() // Status Fragestellung wieder zeigen
+
+                // Prüfen auf Spielerstatus
+                if (players.me.index == 0) {
+                    $("div.question>div").hide() // alle verstecken
+                    $("div.questioner").show() // Status Fragestellung wieder zeigen
+                } else {
+                    $("div.question>div").hide() // alle verstecken
+                    $("div.answerer").show() // Status Fragestellung wieder zeigen
+                }
+
+            } else if (game.state == 2) {
+                console.log("state 2");
+                $(".content>div").hide() // alle verstecken
+                $("div.answering").show() // Status Antworteingabe wieder zeigen
+            } else if (game.state == 3) {
+                console.log("state 3");
+                $(".content>div").hide() // alle verstecken
+                $("div.final_answer").show() // Status Antwortvergleich wieder zeigen
+            } else {
+                console.log("state 4");
+                $(".content>div").hide() // alle verstecken
+                $("div.register").show() // Status Auswahlbildschirm wieder zeigen
+            }
+        }
+    }
+
+
+    // UI auf neusten stand updaten
+    update() {
+
+        console.log("update");
+
+
+        this.show_players()
+
+        this.show_now_state()
 
     }
 }
@@ -292,44 +367,61 @@ let ui = new UI()
 
 
 
-// Holt sich Spielerliste
-socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
-    // eigenen Player überprüfen
-    game.send_own_player({
-        trigger: "newUsersEvent",
-        myID: myID,
-        myIndex: myIndex,
-        userList: userList
-    })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ##### ##### ##### EVENT LISTENER  ##### ##### ##### //
+// ----- ----- ----- EVENT LISTENER  ----- ----- ----- //
+// ##### ##### ##### EVENT LISTENER  ##### ##### ##### //
+
+
+
+// bei klick auf avatar
+$(".avatar > div").click(function () {
+
+    ui.select_avatar(this)
+
+    ui.update()
 });
 
 
 
+// bei klick auf avatar
+$(".questioner input").keyup(function (handler) {
 
+    // Antwort senden
+    if (handler.keyCode == 13) {
 
+        game.send_question(this.value)
+    }
+    console.log(this);
+});
 
+$(".questioner .button").click(function () {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // Antwort senden
+    game.send_question($(".questioner input")[0].value)
+});
 
 
 
@@ -361,31 +453,6 @@ const sounds = {
 
 
 
-// Aktueller Status der Runde 
-// (0 = Auswahlbildschirm, 1 = Fragestellung, 2 = Antworteingabe, 3 = Antwortvergleich)
-let state
-
-// Variable für Frage pro Runde
-let question
-
-// Antworten
-// pro Spieler ein Antwort-Objekt
-// answer.push( new Answer({col_1:"a", col_2:"a", col_3:"a", col_4:"a", col_5:"a", col_6:"a", col_7:"a", col_8:"a"}) )
-let answers = []
-
-// Vorlage für Antworten Objekt
-class Answer {
-    constructor(selected) {
-
-    }
-
-    // gespeicherte Melodie abspielen
-    play_melody() {
-        // Schleife, die pro Spalte ausgewählten Ton abspielt
-        // jquery hilft vermutlich sehr bei
-
-    }
-}
 
 //Töne abspielen
 // prüft zeile (tonlage)
@@ -431,42 +498,6 @@ $(".melody_box div  div").click(function () {
 
 
 
-// Status Anzeige
-function set_state(status) {
-    if (status == 1) {
-        $(".content>div").hide() // alle verstecken
-        $("div.question").show() // Status Fragestellung wieder zeigen
-
-        // Prüfen auf Spielerstatus
-        if (players.me.index == 0) {
-            $("div.question>div").hide() // alle verstecken
-            $("div.questioner").show() // Status Fragestellung wieder zeigen
-        } else {
-            $("div.question>div").hide() // alle verstecken
-            $("div.answerer").show() // Status Fragestellung wieder zeigen
-        }
-
-    } else if (status == 2) {
-        $(".content>div").hide() // alle verstecken
-        $("div.answering").show() // Status Antworteingabe wieder zeigen
-    } else if (status == 3) {
-        $(".content>div").hide() // alle verstecken
-        $("div.final_answer").show() // Status Antwortvergleich wieder zeigen
-    } else {
-        $(".content>div").hide() // alle verstecken
-        $("div.register").show() // Status Auswahlbildschirm wieder zeigen
-    }
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -504,7 +535,6 @@ function set_state(status) {
 /* Events erhalten und interpretieren */
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
-    // console.log(input);
 
     switch (input.domain) {
         case "status":
@@ -568,15 +598,30 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 });
 
-// send("players", {
-//     who: "own",
-//     player: {
-//         id: "a",
-//         index: 2,
-//         avatar: 0,
-//         answer: ""
-//     }
-// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+send("players", {
+    who: "own",
+    player: {
+        id: "a",
+        index: 2,
+        avatar: 3,
+        answer: ""
+    }
+})
 // send("players", {
 //     who: "own",
 //     player: {
