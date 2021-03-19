@@ -434,6 +434,13 @@ $(".questioner .button").click(function () {
 
 
 
+
+
+
+
+
+
+
 // Noten als Name
 let notes = ["c3", "h", "a", "g", "f", "e", "d", "c4"]
 // Töne
@@ -447,8 +454,19 @@ const sounds = {
         e: new Audio("./sound/E.mp3"),
         d: new Audio("./sound/D.mp3"),
         c4: new Audio("./sound/C4.mp3")
-    }
+    },
+    instrument_2: [
+        new Audio("./sound/C4.mp3"),
+        new Audio("./sound/H.mp3"),
+        new Audio("./sound/A.mp3"),
+        new Audio("./sound/G.mp3"),
+        new Audio("./sound/F.mp3"),
+        new Audio("./sound/E.mp3"),
+        new Audio("./sound/D.mp3"),
+        new Audio("./sound/C3.mp3")
+    ]
 }
+
 
 
 
@@ -456,6 +474,32 @@ const sounds = {
 
 //Töne abspielen
 // prüft zeile (tonlage)
+for (let index = 0; index <= $(".melody_box > div").length; index++) {
+
+    $(".melody_box div  div:nth-child(" + index + ")").click(function () {
+
+        let tone = sounds.instrument_2[index - 1]
+
+        tone.currentTime = 0
+        console.log("clicked on " + index + "'th tone")
+
+        tone.play()
+
+        $(this).parent().find('.changeColor').removeClass('changeColor')
+        $(this).addClass('changeColor')
+
+    });
+
+}
+
+
+
+
+
+/*
+
+// überarbeitet zu einer kurzen for Schleife
+
 $(".melody_box div  div:nth-child(1)").click(function () {
     console.log("c4")
     sounds.instrument_1.c4.play()
@@ -495,7 +539,7 @@ $(".melody_box div  div").click(function () {
     $(this).addClass('changeColor')
 });
 
-
+*/
 
 
 
