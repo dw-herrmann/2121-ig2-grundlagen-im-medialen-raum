@@ -500,6 +500,45 @@ $(".answering > button.submit").click(function () {
 
 
 
+$(".answering > button.play").click(function(){
+    playMelody();
+})
+
+let playCounter = 1;
+
+function playMelody() {
+   if (playCounter == 9) {
+        playCounter = 1;
+        return;
+    }
+
+    let playIndex = $(".melody_box div:nth-child("+playCounter+")").find('.changeColor').index();
+
+    if (playIndex !== -1) {
+        sounds.instrument_2[playIndex].pause()
+        sounds.instrument_2[playIndex].currentTime = 0;
+        sounds.instrument_2[playIndex].play()
+    }
+
+    $(".melody_box").find('.active').removeClass('active');
+    $(".melody_box div:nth-child("+playCounter+")").addClass('active');
+
+
+    playCounter++;
+
+    setTimeout(() => {
+        playMelody();
+    }, 500);
+};
+
+
+// bei klick auf Antwort senden
+$(".answering > button.submit").click(function () {
+
+    //ui.submit_answer()
+
+    //ui.update()
+});
 
 
 
@@ -507,21 +546,14 @@ $(".answering > button.submit").click(function () {
 
 
 
+// let notes = ["./sound/C3.mp3","./sound/H.mp3","./sound/A.mp3","./sound/G.mp3","./sound/F.mp3","./sound/E.mp3",
+// "./sound/D.mp3","./sound/C4.mp3"
+// ]
+// let note = []
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// for (i=0; i<notes.length; i++) {
+//     note[i]= new Audio("Audio/"+notes[i]);
+//   }
 
 
 
