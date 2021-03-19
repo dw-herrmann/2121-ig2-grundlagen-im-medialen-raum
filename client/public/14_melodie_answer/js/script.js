@@ -282,6 +282,34 @@ class UI {
     }
 
 
+    submit_answer() {
+
+        let answer = []
+
+        $('.melody_box').children().each(function () {
+            // $(this).find('.changeColor')
+
+            for (let index = 0; index < $('.melody_box > div').length; index++) {
+                console.log(
+                    $('.melody_box > div')[index]
+                    
+                );
+
+            }
+
+            // $('.melody_box').children().index(
+            //     $('.melody_box').children().find('changeColor')
+            // )
+
+            // answer.push("")
+        });
+
+        console.log(answer);
+    }
+
+
+
+
     // show now-state
     show_now_state() {
 
@@ -422,6 +450,27 @@ $(".questioner .button").click(function () {
     // Antwort senden
     game.send_question($(".questioner input")[0].value)
 });
+
+
+
+
+// bei klick auf Antwort senden
+$(".answering > button.submit").click(function () {
+
+    ui.submit_answer()
+
+    ui.update()
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
