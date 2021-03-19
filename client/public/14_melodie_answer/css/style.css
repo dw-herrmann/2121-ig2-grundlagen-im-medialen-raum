@@ -207,9 +207,9 @@ flex-direction: row;
 div.final_answer .playbutton {
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 70px;
 
-} */
+} 
 
 div.final_answer .playbutton button {
     width: 100px;
