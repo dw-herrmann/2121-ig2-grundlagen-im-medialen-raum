@@ -209,21 +209,26 @@ div.answering div.anpl .submit {
 
 div.final_answer .finalpage, .playbutton {
     display: flex;
-flex-direction: row;
+    flex-direction: row;
     justify-content: center;
-}
 
-    
+    }
+
 div.final_answer .playbutton {
     display: flex;
     flex-direction: column;
-    margin: 70px;
-
-} 
-
-div.final_answer .playbutton button {
-    width: 100px;
     margin: 50px;
+    margin-top: 0%;
+    left: 50%;
+
+    }
+
+    div.final_answer .playbutton button {
+        width: 100px;
+        margin: 25px;
+        margin-left: 20px;
+     
+
 
 }
 
