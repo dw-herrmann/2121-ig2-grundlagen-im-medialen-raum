@@ -77,6 +77,10 @@ div.register .selected {
     opacity: 0.5;
     pointer-events: none;
 }
+div.register{
+    /* display: inline-block; */
+    border-left: 4px solid white;   
+}
 
 
 div.register .avatar div {
@@ -176,7 +180,7 @@ div.answering .melody_box>div>div {
 
 /* Farbe der Kästchen ändern*/
 div.answering .melody_box>div .changeColor {
-    background-color: aqua;
+    background-color: rgb(248, 248, 220);
 }
 
 div.answering div.anpl {
@@ -186,11 +190,17 @@ div.answering div.anpl {
 }
 
 div.answering div.anpl .play {
-    margin: 5px;
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
 }
 
 div.answering div.anpl .submit {
-    margin: 5px;
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
 }
 
 
@@ -252,9 +262,11 @@ div.final_answer div.leo {
     border: 4px solid #4BA9DC;
     background-color: #4BA9DC40;
 } 
-
-
-
+div.final_answer .position_svg {
+    padding-right: 40px;
+    display: inline-block;
+    border-right: 4px solid white;    
+}
 
 
 
