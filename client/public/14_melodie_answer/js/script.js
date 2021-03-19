@@ -357,6 +357,21 @@ class UI {
     }
 
 
+
+
+    show_avatars() {
+
+
+        console.log(game.player_list.active);
+
+        console.log($(game.player_list.active));
+        
+    }
+
+
+
+
+    
     // UI auf neusten stand updaten
     update() {
 
@@ -706,15 +721,15 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 
-send("players", {
-    who: "own",
-    player: {
-        id: "a",
-        index: 2,
-        avatar: 3,
-        answer: ""
-    }
-})
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "a",
+//         index: 2,
+//         avatar: 3,
+//         answer: ""
+//     }
+// })
 // send("players", {
 //     who: "own",
 //     player: {
