@@ -28,12 +28,11 @@ body {
 }
 
 div.logo {
-    padding: 10px;
-    margin: 10px;
     width: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
 }
 
 .button {
@@ -65,7 +64,7 @@ body>.player::after {
     top: 0;
     bottom: 0;
     right: -15px;
-    background-color: white;
+    background-color: #f0f8ff90;
     width: 2px;
 
 }
@@ -400,7 +399,7 @@ div.final_answer div.leo {
 div.final_answer .position_svg {
     padding-right: 40px;
     display: inline-block;
-    border-right: 4px solid white;
+    border-right: 2px solid #f0f8ff90;
 }
 
 div.final_answer .button_container {
@@ -413,6 +412,12 @@ div.final_answer .button_container {
 }
 
 .final_answer .playbutton > button:disabled {
-    background-color: yellow;
+    background-color: #646464;
 }
 
+.final_answer .playbutton .koala, .giraffe, .elefant, .leo {
+    background-color: #4D4D4D;
+    border: none;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
