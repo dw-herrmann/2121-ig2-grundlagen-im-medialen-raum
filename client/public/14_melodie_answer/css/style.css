@@ -55,10 +55,24 @@ body>.player {
     top: 30px;
     left: 30px;
     bottom: 30px;
-
-    position: absolute;
     width: 180px;
 }
+
+body>.player::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -15px;
+    background-color: white;
+    width: 2px;
+
+}
+
+body>.player>h2 {
+    text-align: center;
+}
+
 
 body>.player>div>div {
     margin-top: 10px;
@@ -67,6 +81,7 @@ body>.player>div>div {
     border-radius: 200px;
     background-color: #7FBC7D40;
     position: relative;
+    margin: 30px auto;
 }
 
 body>.player .playeremoji {
@@ -103,11 +118,20 @@ body>.player>div>div.leo {
 /* Content-Bereich */
 .content {
     bottom: 30px;
+    margin-top: 30px;
     margin-left: 210px;
+    position: relative;
 }
 
 .content>div {
     min-height: 500px;
+    position: relative;
+    
+}
+
+.content>div h2 {
+    padding-top: 20px;
+    
 }
 
 .content h2,
@@ -127,16 +151,17 @@ body>.player>div>div.leo {
 div.register .avatar {
     display: flex;
     justify-content: center;
+    position: absolute;
+    flex-wrap: wrap;
+    right: 0;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
 div.register .selected {
     opacity: 0.5;
     pointer-events: none;
-}
-
-div.register {
-    /* display: inline-block; */
-    border-left: 4px solid white;
 }
 
 
@@ -230,6 +255,12 @@ spin {
 
 div.question {}
 
+div.question > div {
+    margin-bottom: 50%;
+    transform: translate(0, -50%);
+}
+
+
 div.question .questioner h2 input {
     background-color: #4D4D4D;
     border: none;
@@ -291,7 +322,9 @@ div.answering div.anpl .submit {
 
 
 /* State 3 - Anhören der Antworten */
-.content div.final_answer {}
+.content div.final_answer {
+    margin-left: -210px;
+}
 
 div.final_answer .finalpage,
 .playbutton {

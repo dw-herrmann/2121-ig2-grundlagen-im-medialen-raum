@@ -362,13 +362,21 @@ class UI {
             element = 0
         });
 
+        
         // check wich avatars are used
-        game.player_list.active.forEach(function (element) {
+        if (game.player_list.active.length != 0) {
+            console.log("active players = " + game.player_list.active.length);
 
-            let used_avatar = players.me.get_avatar_by_user(element)
+            game.player_list.active.forEach(function (element) {
+                
+                let used_avatar = players.me.get_avatar_by_user(element)
+                
+                ui.avatars.used[used_avatar] = 1
+            })
+        }
 
-            ui.avatars.used[used_avatar] = 1
-        })
+
+        console.log(game.player_list.active);
     }
 
     // // Zeigt aktive Spielerliste oben links an
@@ -592,6 +600,10 @@ class UI {
 
     show_question() {
         $(".variable_question").text(game.question)
+    }
+
+    highlight_me() {
+        console.log(players.me.avatar);
     }
 
 
