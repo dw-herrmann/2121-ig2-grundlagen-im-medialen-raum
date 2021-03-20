@@ -34,7 +34,6 @@ div.logo {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    display: none;
 }
 
 .button {
