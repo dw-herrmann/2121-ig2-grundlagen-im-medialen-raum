@@ -20,7 +20,7 @@
     <div class="logo"><img src="img/logo.svg" width="60"></div>
 
 
-    <div class="player">
+    <div class="player" style="display: none;">
         <h2>Player</h2>
         <div>
             <div style="color:#7FBC7D;"> <img class="playeremoji" src="img/koala.svg" width="20"> Spieler 1 <span>
@@ -37,7 +37,7 @@
     <div class="content">
 
         <!-- State 0 - Anmeldung -->
-        <div class="register">
+        <div class="register" style="display: none;">
             <h2>Wähle ein Emoji aus</h2>
             <div class="avatar">
                 <div class="koala"> <img src="img/koala.svg"> </div>
@@ -48,14 +48,15 @@
         </div>
 
         <!-- State 1 - Fragestellung -->
-        <div class="question">
+        <div class="question" style="display: none;">
 
             <div class="questioner">
-                <h2>Wie findest du <input type="text"> ? <button class="button"><img src="img/sendenweiß.svg"
-                            width="15"></button>
+                <h2>Wie findest du <input type="text">? </h2>
+                <button class="button">
+                    <img src="img/sendenweiß.svg" width="15">
+                </button>
             </div>
             <div class="answerer">
-                <br>
                 <h2> Bitte warten... </h2>
                 <h3> Spieler 1 stellt eine Frage. </h3>
                 <div class="loader"></div>
@@ -63,7 +64,7 @@
         </div>
 
         <!-- State 2 - Antwort -->
-        <div class="answering">
+        <div class="answering" style="display: none;">
             <h2>Wie findest du <span class="variable_question">Avocado</span> ?</h2>
             <h3>Deine Antwort:</h3>
             <br>
@@ -160,7 +161,7 @@
         </div>
 
         <!-- State 3 - Anhören der Antworten -->
-        <div class="final_answer">
+        <div class="final_answer" style="display: none;">
             <h2>Wie findest du <span class="variable_question">Avocado</span> ?</h2>
             <h3>Antworten</h3>
 
