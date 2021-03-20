@@ -405,6 +405,12 @@ div.final_answer .button_container {
 }
 
 .final_answer .playbutton > button:disabled {
-    background-color: yellow;
+    background-color: #646464;
 }
 
+.final_answer .playbutton .koala, .giraffe, .elefant, .leo {
+    background-color: #4D4D4D;
+    border: none;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
