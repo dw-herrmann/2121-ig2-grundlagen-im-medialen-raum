@@ -34,6 +34,7 @@ div.logo {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    display: none;
 }
 
 .button {
@@ -56,9 +57,18 @@ body>.player {
     top: 30px;
     left: 30px;
     bottom: 30px;
-    
-    position: absolute;
     width: 180px;
+}
+
+body>.player::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -15px;
+    background-color: white;
+    width: 2px;
+
 }
 
 body>.player>h2 {
@@ -118,6 +128,12 @@ body>.player>div>div.leo {
 .content>div {
     min-height: 500px;
     position: relative;
+    
+}
+
+.content>div h2 {
+    padding-top: 20px;
+    
 }
 
 .content h2,
@@ -137,16 +153,17 @@ body>.player>div>div.leo {
 div.register .avatar {
     display: flex;
     justify-content: center;
+    position: absolute;
+    flex-wrap: wrap;
+    right: 0;
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 
 div.register .selected {
     opacity: 0.5;
     pointer-events: none;
-}
-
-div.register {
-    /* display: inline-block; */
-    border-left: 4px solid white;
 }
 
 
