@@ -359,7 +359,7 @@ div.final_answer div.leo {
 div.final_answer .position_svg {
     padding-right: 40px;
     display: inline-block;
-    border-right: 4px solid white;
+    border-right: 4px solid aliceblue;
 }
 
 div.final_answer .button_container {
