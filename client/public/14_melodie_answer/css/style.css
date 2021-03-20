@@ -1,16 +1,30 @@
 * {
-    background-color: rgba(255, 255, 255, 0.1);
+    /* background-color: rgba(255, 255, 255, 0.1); */
 }
 
-body {
+html {
+    position: relative;
     padding: 0;
     margin: 0;
     width: 100vw;
-    height: 600vh;
-    background-color: #4D4D4D;
+    height: 100vh;
     color: aliceblue;
     font-family: 'Nunito', sans-serif;
     font-weight: 300;
+    background-color: #646464;
+
+}
+
+body {
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 100px;
+    transform: translate(-50%);
+    width: 80%;
+    max-width: 1000px;
+    padding: 30px;
+    background-color: #4D4D4D;
+    height: auto;
 }
 
 .button, button {
@@ -30,9 +44,12 @@ body {
 /* Player Ansicht  */
 body>.player {
     position: absolute;
-    margin-left: calc(50% - 550px);
-    margin-top: 100px;
-    width: 150px;
+    top: 30px;
+    left: 30px;
+    bottom: 30px;
+
+    position: absolute;
+    width: 180px;
 }
 
 body>.player>div>div {
@@ -77,11 +94,8 @@ body>.player>div>div.leo {
 
 /* Content-Bereich */
 .content {
-    position: absolute;
-    margin-left: 50%;
-    margin-top: 100px;
-    transform: translate(-50%);
-    width: 800px;
+    bottom: 30px;
+    margin-left: 210px;
 }
 
 .content>div {
