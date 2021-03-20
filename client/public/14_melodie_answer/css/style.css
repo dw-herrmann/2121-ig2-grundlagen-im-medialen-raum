@@ -134,12 +134,12 @@ body>.player>div>div.leo {
 .content>div {
     min-height: 500px;
     position: relative;
-    
+
 }
 
 .content>div h2 {
     padding-top: 20px;
-    
+
 }
 
 .content h2,
@@ -429,7 +429,7 @@ div.answering div.anpl .submit {
     text-align: center;
 }
 
-.final_answer .button_container button{
+.final_answer .button_container button {
     background-color: rgb(248, 248, 220, 0.2);
     border-radius: 6px;
 }
