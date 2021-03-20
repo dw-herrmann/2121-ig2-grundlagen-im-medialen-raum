@@ -13,17 +13,17 @@ body {
     font-weight: 300;
 }
 
-.button {
+.button, button {
     background-color: #4D4D4D;
     border: 2px solid #4D4D4D;
     padding: 6px 12px;
     border-radius: 4px;
     color: white;
-  }
-  
-  .button:hover {
+}
+
+.button:hover, button:hover {
     border: 2px solid rgb(133, 133, 133);
-  }
+}
 
 
 
@@ -35,9 +35,43 @@ body>.player {
     width: 150px;
 }
 
-img.playeremoji {
+body>.player>div>div {
     margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 200px;
+    background-color: #7FBC7D40;
+    position: relative;
 }
+
+body>.player .playeremoji {
+    position: absolute;
+    top: 50%;
+    height: 60%;
+    width: 100%;
+    transform: translate(0, -50%);
+}
+
+body>.player>div>div.koala {
+    border: 4px solid #7FBC7D;
+    background-color: #7FBC7D40;
+}
+
+body>.player>div>div.giraffe {
+    border: 4px solid #FFBB6B;
+    background-color: #FFBB6B40;
+}
+
+body>.player>div>div.elefant {
+    border: 4px solid #FC7479;
+    background-color: #FC747940;
+}
+
+body>.player>div>div.leo {
+    border: 4px solid #4BA9DC;
+    background-color: #4BA9DC40;
+}
+
 
 
 
@@ -77,9 +111,10 @@ div.register .selected {
     opacity: 0.5;
     pointer-events: none;
 }
-div.register{
+
+div.register {
     /* display: inline-block; */
-    border-left: 4px solid white;   
+    border-left: 4px solid white;
 }
 
 
@@ -104,24 +139,30 @@ div.register .avatar div img {
 div.register div.koala img {
     width: 85px;
 }
+
 div.register div.giraffe {
     border: 4px solid #FFBB6B;
     background-color: #FFBB6B40;
 }
+
 div.register div.giraffe img {
     width: 65px;
 }
+
 div.register div.elefant {
     border: 4px solid #FC7479;
     background-color: #FC747940;
 }
+
 div.register div.elefant img {
     width: 100px;
 }
+
 div.register div.leo {
     border: 4px solid #4BA9DC;
     background-color: #4BA9DC40;
 }
+
 div.register div.leo img {
     width: 61px;
 }
@@ -143,16 +184,27 @@ div.register div.leo img {
     height: 60px;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
+}
+
+spin {
+    0% {
+        -webkit-transform: rotate(0deg);
     }
-    spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-      }
-      
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
 
 div.question {}
 
@@ -219,43 +271,45 @@ div.answering div.anpl .submit {
 /* State 3 - Anhören der Antworten */
 .content div.final_answer {}
 
-div.final_answer .finalpage, .playbutton {
+div.final_answer .finalpage,
+.playbutton {
     display: flex;
     flex-direction: row;
     justify-content: center;
 
-    }
+}
 
 div.final_answer .playbutton {
     display: flex;
     flex-direction: column;
-    margin: 50px;
+    margin-left: 50px;
     margin-top: 0%;
-    left: 50%;
+    /* left: 50%; */
 
-    }
+}
 
-    div.final_answer .playbutton button {
-        width: 100px;
-        margin: 25px;
-        margin-left: 20px;
-     
+div.final_answer .playbutton button {
+    width: 100px;
+    margin: 25px;
+    margin-left: 20px;
+
 
 
 }
 
 div.final_answer .position_svg div {
-        display: flex;
-        width: 105px;
-        height: 105px;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        border: 4px solid #7FBC7D;
-        background-color: #7FBC7D40;
-        border-radius: 50%;
-        position: relative;
-    }
+    display: flex;
+    width: 105px;
+    height: 105px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border: 4px solid #7FBC7D;
+    background-color: #7FBC7D40;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 20px;
+}
 
 div.final_answer .position_svg div img {
     position: absolute;
@@ -278,13 +332,24 @@ div.final_answer div.elefant {
 div.final_answer div.leo {
     border: 4px solid #4BA9DC;
     background-color: #4BA9DC40;
-} 
+}
+
 div.final_answer .position_svg {
     padding-right: 40px;
     display: inline-block;
-    border-right: 4px solid white;    
+    border-right: 4px solid white;
 }
 
+div.final_answer .button_container {
+    margin-top: 50px;
+    text-align: center;
+}
 
+.final_answer .position_svg > div.hide {
+    display: none;
+}
 
+.final_answer .playbutton > button:disabled {
+    background-color: yellow;
+}
 
