@@ -13,6 +13,7 @@ let socket = io();
 // Check nach Verbindung
 socket.on('connected', function (msg) {
     console.log(msg);
+    send("getinfo")
 });
 
 
@@ -47,6 +48,30 @@ class Player {
         this.avatar
         this.answer = []
     }
+
+    get_user_by_avatar(avatar) {
+
+        // stellt name auf id um
+        if (jQuery.type(avatar) == "string") {
+            avatar = ui.avatars.list.indexOf(avatar)
+        }
+
+        // speichert alle player avatar-ids in array
+        let temp_user_array = []
+
+        game.player_list.active.forEach(function (element, index) {
+
+            temp_user_array.push(element.avatar)
+        })
+
+        return temp_user_array.indexOf(avatar)
+    }
+
+    get_avatar_by_user(user) {
+
+        return user.avatar
+    }
+
 }
 
 
@@ -99,8 +124,11 @@ class Game {
         // eigenen Player verschicken
         send('players', {
             who: 'own',
-            player: players.me
+            player: players.me,
+            avatar_used: players.me.avatar
         })
+
+
 
     }
 
@@ -165,11 +193,18 @@ class Game {
                 }
             }
 
-            console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
+            ui.check_avatars()
 
         }
-        
-        ui.update()
+
+        this.update_send()
+        // console.log("send players list");
+        // send('players', {
+        //     who: 'list',
+        //     player: game.player_list
+        // })
+
+        // ui.update()
     }
 
 
@@ -178,8 +213,10 @@ class Game {
         // wenn cliend, update list
         if (players.me.index != 0) {
             this.player_list = input.value.list
-            console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
+            // console.log("player list updated. all: " + this.player_list.all.length + ", active: " + this.player_list.active.length);
         }
+
+        ui.update()
     }
 
 
@@ -192,21 +229,24 @@ class Game {
             // sende game update
             send("game", {
                 order: "update",
-                content: game
+                content: game,
+                ui: ui
             })
         }
     }
 
 
-    update_receive(input) {
-        console.log("update_receive");
-        console.log(input);
+    update_receive(temp_game, temp_ui) {
 
         // wenn cliend, update list
         if (players.me.index != 0) {
-            this.question = input.question
-            this.state = input.state
-            this.player_list = input.player_list
+            this.question = temp_game.question
+            this.state = temp_game.state
+            this.player_list = temp_game.player_list
+
+            if (temp_ui != undefined) {
+                ui.avatars = temp_ui.avatars
+            }
         }
 
         ui.update()
@@ -214,11 +254,20 @@ class Game {
 
     // CLIENT new game
     reset() {
-        // status auf 0 setzen
-        this.state = 1
-        this.question = 0
-    }
+        console.log("reset");
 
+        // status auf 0 setzen
+        if (players.me.index == 0) {
+            // Game Parameter zurücksetzen
+            this.state = 1
+            this.question = 0
+        }
+
+        // Spielerparameter zurücksetzen
+        players.me.answer = []
+        this.send_own_player()
+
+    }
 
 }
 
@@ -271,7 +320,7 @@ let game = new Game()
 // ##### ##### ##### UI  ##### ##### ##### //
 
 class UI {
-    constructor(myID) {
+    constructor() {
         this.avatars = {
             list: [
                 "koala",
@@ -300,23 +349,38 @@ class UI {
         // Setzt Avatar auf used
         ui.avatars.used[ui.avatars.list.indexOf(selected)] = 1
 
-        console.log("selects " + this.avatars.list[players.me.avatar]);
+        // console.log("selects " + this.avatars.list[players.me.avatar]);
 
         game.send_own_player()
     }
 
 
+    check_avatars() {
+        // set each avatar unused
+        ui.avatars.used.forEach(function (element, index) {
+            console.log("check_avatars " + index + " " + element);
+            element = 0
+        });
+
+        // check wich avatars are used
+        game.player_list.active.forEach(function (element) {
+
+            let used_avatar = players.me.get_avatar_by_user(element)
+
+            ui.avatars.used[used_avatar] = 1
+        })
+    }
 
     // // Zeigt aktive Spielerliste oben links an
     show_players() {
         let add_to_html = []
 
-        console.log(game.player_list.active);
+        // console.log(game.player_list.active);
 
         // jeden Player ansehen
         for (let index = 0; index < game.player_list.active.length; index++) {
             add_to_html.push(
-                '<div style="color:#4BA9DC;"> <img class="playeremoji" src="img/' + ui.avatars.list[game.player_list.active[index].avatar] + '.svg" width="20"> </div>'
+                '<div class="' + ui.avatars.list[game.player_list.active[index].avatar] + '"> <img class="playeremoji" src="img/' + ui.avatars.list[game.player_list.active[index].avatar] + '.svg" width="20"> </div>'
             )
         }
 
@@ -330,7 +394,6 @@ class UI {
     // HOST sends question
     submit_question(input) {
 
-        console.log(input);
         game.question = input
         game.state = 2
 
@@ -360,8 +423,6 @@ class UI {
                 answer[index] = "pause"
             }
 
-            console.log(answer[index]);
-
         })
 
         players.me.answer = answer.reverse()
@@ -371,44 +432,96 @@ class UI {
 
     }
 
-    play_answer() {
+    play_answer(clicked_player) {
 
-        console.log(game.player_list.all[0].answer);
-        
-        let counter = game.player_list.all[0].answer.length
-        
+        let counter = game.player_list.active[clicked_player].answer.length
+
         // Töne abspielen
         playSound()
-        
+
         function playSound() {
 
-            let melody = game.player_list.all[0].answer
+            let melody = game.player_list.active[clicked_player].answer
 
             counter--
-            console.log(counter + " = " + melody[counter]);
-            
+
             if (melody[counter] != "pause") {
-                
+
                 sounds.instrument_2[melody[counter]].currentTime = 0
                 sounds.instrument_2[melody[counter]].play()
-                
+
             }
-            
+
 
             if (counter > 0) {
                 setTimeout(() => {
                     playSound();
-                }, 500);
+                }, 300);
             }
         }
 
     }
 
+    show_answer() {
+
+        // debug()
+
+        // Icons verstecken
+        $(".final_answer .position_svg > div").each(function () {
+
+            // icon id
+            let icon_id = ui.avatars.list.indexOf($(this).attr('class'))
+
+            if (
+                ui.avatars.used[icon_id] == 0 ||
+                ui.avatars.used[icon_id] == undefined
+            ) {
+                $(this).hide()
+            } else {
+                $(this).show()
+            }
+        })
+
+
+        // Antworten verstecken
+        $(".final_answer .playbutton > button").each(function () {
+
+            // icon id
+            let icon_id = ui.avatars.list.indexOf($(this).attr('class'))
+
+            if (ui.avatars.used[icon_id] == 0) {
+                $(this).hide()
+            } else {
+                $(this).show()
+
+                let player = game.player_list.active[players.me.get_user_by_avatar(icon_id)]
+
+                if (player != undefined) {
+
+                    if (player.answer.length == 0) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+
+                }
+            }
+
+        })
+
+    }
+
+    show_reset_button() {
+        if (players.me.index != 0) {
+            $(".final_answer .button_container .new_round").hide()
+        } else {
+            $(".final_answer .button_container .new_round").show()
+        }
+    }
+
 
     // show now-state
     show_now_state() {
-        console.log("show_now_state");
-
         // already select 
         if (
             // falls "players.me.avatar" nicht existiert
@@ -461,7 +574,7 @@ class UI {
 
         $(".register .avatar > div").each(function (element) {
 
-            console.log("avatar: " + element + ", used " + ui.avatars.used[element]);
+            // console.log("avatar: " + element + ", used " + ui.avatars.used[element]);
 
             if (ui.avatars.used[element] == 1) {
                 $(
@@ -489,13 +602,17 @@ class UI {
     update() {
 
         console.log("update");
+        this.check_avatars()
         this.show_avatars()
 
-        
+
         this.show_question()
         this.show_now_state()
-        
+
         this.show_players()
+        this.show_answer()
+        this.show_reset_button()
+
     }
 }
 
@@ -557,6 +674,7 @@ let ui = new UI()
 // bei klick auf avatar
 $(".avatar > div").click(function () {
 
+    ui.check_avatars()
     ui.select_avatar(this)
 
     ui.update()
@@ -593,10 +711,18 @@ $(".answering button.submit").click(function () {
 
 
 /* State 3 - Antworten anhören */
-$(".final_answer button#koala").click(function () {
-    ui.play_answer('koala')
+$(".final_answer .playbutton > button").click(function () {
+
+    let clicked_player = players.me.get_user_by_avatar($(this).attr('class'))
+
+    ui.play_answer(clicked_player)
 })
 
+/* State 3 - reset */
+$(".final_answer .button_container .new_round").click(function () {
+
+    send("reset")
+})
 
 
 
@@ -616,12 +742,12 @@ $(".answering button.play").click(function () {
 let playCounter = 1;
 
 function playMelody() {
-   if (playCounter == 9) {
+    if (playCounter == 9) {
         playCounter = 1;
         return;
     }
 
-    let playIndex = $(".melody_box div:nth-child("+playCounter+")").find('.changeColor').index();
+    let playIndex = $(".melody_box div:nth-child(" + playCounter + ")").find('.changeColor').index();
 
     if (playIndex !== -1) {
         sounds.instrument_2[playIndex].pause()
@@ -630,14 +756,14 @@ function playMelody() {
     }
 
     $(".melody_box").find('.active').removeClass('active');
-    $(".melody_box div:nth-child("+playCounter+")").addClass('active');
+    $(".melody_box div:nth-child(" + playCounter + ")").addClass('active');
 
 
     playCounter++;
 
     setTimeout(() => {
         playMelody();
-    }, 500);
+    }, 300);
 };
 
 
@@ -699,7 +825,7 @@ for (let index = 0; index <= $(".melody_box > div").length; index++) {
         let tone = sounds.instrument_2[index - 1]
 
         tone.currentTime = 0
-        console.log("clicked on " + index + "'th tone")
+        // console.log("clicked on " + index + "'th tone")
 
         tone.play()
 
@@ -798,8 +924,7 @@ $(".melody_box div  div").click(function () {
 socket.on('serverEvent', function (input) {
     // input = {domain:"thema", value:"daten"}
 
-    // console.log("serverEvent");
-    // console.log(input);
+    console.log(input.domain);
 
 
     switch (input.domain) {
@@ -819,15 +944,13 @@ socket.on('serverEvent', function (input) {
 
                 case "question":
                     // funktionen zum aufrufen
-                    console.log("input.value.content");
-                    // console.log(input.value.content);
                     game.update_receive(input.value.content)
 
                     break;
 
                 case "update":
                     // game updaten
-                    game.update_receive(input.value.content)
+                    game.update_receive(input.value.content, input.value.ui)
 
                     break;
 
@@ -843,20 +966,27 @@ socket.on('serverEvent', function (input) {
                     game.host_update_player_list(input)
                     break;
 
-                case "list":
-                    // Spielerliste updaten
-                    game.cliend_update_player_list(input)
-                    ui.show_players()
-                    break;
-
                 default:
                     break;
             }
             break;
 
-        case "game":
+
+        case "getinfo":
+            console.log("hallo");
+            // eigenen Player überprüfen
+            game.send_own_player()
 
             break;
+
+        case "reset":
+            console.log("reset");
+
+            // funktionen zum aufrufen
+            game.reset()
+
+            break;
+
 
         default:
             break;
@@ -890,10 +1020,23 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 // debug
-// players.me.answer = [7, "pause", 7, "pause", 7, "pause", 7, "pause"]
-// players.me.avatar = 2
 
+function debug() {
+    console.log(players);
+    console.log(game);
+    console.log(ui);
+}
 
+// if (players.me.index == 0) {
+//     players.me.answer = [7, "pause", 7, "pause", 7, "pause", 7, "pause"]
+//     players.me.avatar = 2
+//     game.state = 3
+//     ui.avatars.used[0] = 1
+// } else if (players.me.index == 0) {
+//     ui.avatars.used[2] = 1
+
+// }
+// ui.avatars.used[3] = 1
 
 // send("players", {
 //     who: "own",
@@ -901,7 +1044,7 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 //         id: "a",
 //         index: 2,
 //         avatar: 3,
-//         answer: ""
+//         answer: [4, 3, 4, 3, 4, 3, 4, 3]
 //     }
 // })
 // send("players", {
@@ -910,7 +1053,7 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 //         id: "b",
 //         index: 3,
 //         avatar: 0,
-//         answer: ""
+//         answer: [1, 2, 1, 2, 1, 2, 1, 2]
 //     }
 // })
 // send("players", {
