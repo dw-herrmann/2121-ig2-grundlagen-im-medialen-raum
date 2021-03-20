@@ -13,7 +13,6 @@ html {
     height: 100vh;
     color: aliceblue;
     background-color: #646464;
-
 }
 
 body {
@@ -26,6 +25,7 @@ body {
     padding: 30px;
     background-color: #4D4D4D;
     height: auto;
+    border-radius: 8px;
 }
 
 div.logo {
