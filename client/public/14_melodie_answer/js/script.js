@@ -521,9 +521,9 @@ class UI {
 
     show_reset_button() {
         if (players.me.index != 0) {
-            $(".final_answer .button_container .new_round").hide()
+            $(".final_answer .button_container").hide()
         } else {
-            $(".final_answer .button_container .new_round").show()
+            $(".final_answer .button_container").show()
         }
     }
 

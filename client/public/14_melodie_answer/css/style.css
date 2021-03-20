@@ -119,7 +119,7 @@ body>.player>div>div.leo {
 
 /* Content-Bereich */
 .content {
-    bottom: 30px;
+    top: -30px;
     margin-top: 30px;
     margin-left: 210px;
     position: relative;
@@ -148,7 +148,7 @@ body>.player>div>div.leo {
 
 
 /* State 0 - Anmeldung */
-.content div.register {}
+/* .content div.register {} */
 
 div.register .avatar {
     position: absolute;
@@ -234,7 +234,7 @@ div.register div.leo img {
     animation: spin 2s linear infinite;
 }
 
-spin {
+/* spin {
     0% {
         -webkit-transform: rotate(0deg);
     }
@@ -252,9 +252,9 @@ spin {
     100% {
         transform: rotate(360deg);
     }
-}
+} */
 
-div.question {}
+/* div.question {} */
 
 div.question>div {
     position: absolute;
@@ -279,10 +279,10 @@ div.question .questioner h2 input {
 
 
 /* State 2 - Antwort */
-.content div.answering {}
+/* .content div.answering {}
 .content div.answering h2 span {
 
-}
+} */
 
 
 div.answering .melody_box {
@@ -340,25 +340,35 @@ div.answering div.anpl .submit {
     margin-left: -210px;
 }
 
-.final_answer .finalpage,
-.playbutton {
+.final_answer .finalpage {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding-top: 30px;
 
 }
 
+.final_answer .position_svg,
 .final_answer .playbutton {
     display: flex;
     flex-direction: column;
-    margin-left: 50px;
-    margin-top: 0%;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+
 }
+
+
+.final_answer .position_svg {
+    border-right: 2px solid #f0f8ff90;
+}
+
 
 .final_answer .playbutton button {
     width: 105px;
     padding: 0;
 }
+
 
 .final_answer .position_svg div,
 .final_answer .playbutton button {
@@ -403,11 +413,6 @@ div.answering div.anpl .submit {
     background-color: #4BA9DC40;
 }
 
-.final_answer .position_svg {
-    padding-right: 40px;
-    display: inline-block;
-    border-right: 2px solid #f0f8ff90;
-}
 
 .final_answer .button_container {
     margin-top: 50px;
