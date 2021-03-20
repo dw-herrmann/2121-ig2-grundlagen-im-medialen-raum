@@ -13,6 +13,7 @@ html {
     height: 100vh;
     color: aliceblue;
     background-color: #646464;
+    background-image: url("../img/background.svg");
 }
 
 body {
