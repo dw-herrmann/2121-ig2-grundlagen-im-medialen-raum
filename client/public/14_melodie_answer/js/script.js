@@ -754,19 +754,22 @@ $(".answering button.play").click(function () {
 let playCounter = 1;
 
 function playMelody() {
+
+
     if (playCounter == 9) {
         playCounter = 1;
+        $(".melody_box").find('.active').removeClass('active');
         return;
     }
-
+    
     let playIndex = $(".melody_box div:nth-child(" + playCounter + ")").find('.changeColor').index();
-
+    
     if (playIndex !== -1) {
         sounds.instrument_2[playIndex].pause()
         sounds.instrument_2[playIndex].currentTime = 0;
         sounds.instrument_2[playIndex].play()
     }
-
+    
     $(".melody_box").find('.active').removeClass('active');
     $(".melody_box div:nth-child(" + playCounter + ")").addClass('active');
 
@@ -776,6 +779,7 @@ function playMelody() {
     setTimeout(() => {
         playMelody();
     }, 300);
+
 };
 
 

@@ -150,14 +150,13 @@ body>.player>div>div.leo {
 .content div.register {}
 
 div.register .avatar {
-    display: flex;
-    justify-content: center;
     position: absolute;
-    flex-wrap: wrap;
-    right: 0;
-    left: 0;
-    top: 50%;
-    transform: translate(0, -50%);
+    /* right: 0; */
+    left: 50%;
+    top: calc(50% + 40px);
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
 }
 
 div.register .selected {
@@ -257,8 +256,11 @@ spin {
 div.question {}
 
 div.question > div {
-    margin-bottom: 50%;
-    transform: translate(0, -50%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -70%);
 }
 
 
@@ -286,6 +288,11 @@ div.answering .melody_box {
 div.answering .melody_box>div {
     display: flex;
     flex-direction: column;
+    margin: 0 5px;
+}
+
+div.answering .melody_box .active > div {
+    background-color: #424242;
 }
 
 div.answering .melody_box>div>div {
