@@ -71,6 +71,11 @@ body>.player::after {
 
 }
 
+body>.player .hey_thats_me,
+.final_answer .position_svg .hey_thats_me {
+    border-width: 8px !important;
+}
+
 body>.player>h2 {
     text-align: center;
 }
