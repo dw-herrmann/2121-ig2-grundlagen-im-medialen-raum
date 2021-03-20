@@ -136,7 +136,6 @@ class Game {
     // HOST sends updated player list to CLIENTS
     host_update_player_list(input) {
 
-        console.log("host_update_player_list");
         // wenn host
         if (players.me.index == 0) {
 
@@ -198,13 +197,6 @@ class Game {
         }
 
         this.update_send()
-        // console.log("send players list");
-        // send('players', {
-        //     who: 'list',
-        //     player: game.player_list
-        // })
-
-        // ui.update()
     }
 
 
@@ -358,26 +350,25 @@ class UI {
     check_avatars() {
         // set each avatar unused
         ui.avatars.used.forEach(function (element, index) {
-            console.log("check_avatars " + index + " " + element);
             element = 0
+            ui.avatars.used[index] = 0
         });
 
-        
         // check wich avatars are used
         if (game.player_list.active.length != 0) {
-            console.log("active players = " + game.player_list.active.length);
+            console.log("active players: " + game.player_list.active.length);
 
             game.player_list.active.forEach(function (element) {
-                
+
                 let used_avatar = players.me.get_avatar_by_user(element)
-                
+
                 ui.avatars.used[used_avatar] = 1
             })
         }
 
-
-        console.log(game.player_list.active);
     }
+
+
 
     // // Zeigt aktive Spielerliste oben links an
     show_players() {
@@ -478,7 +469,10 @@ class UI {
         $(".final_answer .position_svg > div").each(function () {
 
             // icon id
-            let icon_id = ui.avatars.list.indexOf($(this).attr('class'))
+            let icon_name = $(this).attr('class').split(' ')[0]
+
+            let icon_id = ui.avatars.list.indexOf(icon_name)
+
 
             if (
                 ui.avatars.used[icon_id] == 0 ||
@@ -603,7 +597,16 @@ class UI {
     }
 
     highlight_me() {
-        console.log(players.me.avatar);
+
+        if (players.me.avatar != undefined) {
+
+            $(".player > div").find("." + ui.avatars.list[players.me.avatar]).addClass("hey_thats_me")
+            $(".final_answer .position_svg").find("." + ui.avatars.list[players.me.avatar]).addClass("hey_thats_me")
+
+            console.log("me " + players.me.avatar);
+            console.log("me " + ui.avatars.list[players.me.avatar]);
+        }
+
     }
 
 
@@ -617,14 +620,14 @@ class UI {
         this.check_avatars()
         this.show_avatars()
 
-
         this.show_question()
         this.show_now_state()
-
+        
         this.show_players()
         this.show_answer()
         this.show_reset_button()
-
+        
+        this.highlight_me()
     }
 }
 
@@ -761,15 +764,15 @@ function playMelody() {
         $(".melody_box").find('.active').removeClass('active');
         return;
     }
-    
+
     let playIndex = $(".melody_box div:nth-child(" + playCounter + ")").find('.changeColor').index();
-    
+
     if (playIndex !== -1) {
         sounds.instrument_2[playIndex].pause()
         sounds.instrument_2[playIndex].currentTime = 0;
         sounds.instrument_2[playIndex].play()
     }
-    
+
     $(".melody_box").find('.active').removeClass('active');
     $(".melody_box div:nth-child(" + playCounter + ")").addClass('active');
 
@@ -856,72 +859,6 @@ for (let index = 0; index <= $(".melody_box > div").length; index++) {
 
 
 
-/*
-
-// überarbeitet zu einer kurzen for Schleife
-
-$(".melody_box div  div:nth-child(1)").click(function () {
-    console.log("c4")
-    sounds.instrument_1.c4.play()
-});
-
-$(".melody_box div  div:nth-child(2)").click(function () {
-    console.log("h")
-    sounds.instrument_1.h.play()
-});
-$(".melody_box div  div:nth-child(3)").click(function () {
-    console.log("a")
-    sounds.instrument_1.a.play()
-});
-$(".melody_box div  div:nth-child(4)").click(function () {
-    console.log("g")
-    sounds.instrument_1.g.play()
-});
-$(".melody_box div  div:nth-child(5)").click(function () {
-    console.log("f")
-    sounds.instrument_1.f.play()
-});
-$(".melody_box div  div:nth-child(6)").click(function () {
-    console.log("e")
-    sounds.instrument_1.e.play()
-});
-$(".melody_box div  div:nth-child(7)").click(function () {
-    console.log("d")
-    sounds.instrument_1.d.play()
-});
-$(".melody_box div  div:nth-child(8)").click(function () {
-    console.log("c3")
-    sounds.instrument_1.c3.play()
-});
-
-$(".melody_box div  div").click(function () {
-    $(this).parent().find('.changeColor').removeClass('changeColor')
-    $(this).addClass('changeColor')
-});
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -989,15 +926,12 @@ socket.on('serverEvent', function (input) {
 
 
         case "getinfo":
-            console.log("hallo");
             // eigenen Player überprüfen
             game.send_own_player()
 
             break;
 
         case "reset":
-            console.log("reset");
-
             // funktionen zum aufrufen
             game.reset()
 

@@ -13,7 +13,6 @@ html {
     height: 100vh;
     color: aliceblue;
     background-color: #646464;
-
 }
 
 body {
@@ -26,6 +25,7 @@ body {
     padding: 30px;
     background-color: #4D4D4D;
     height: auto;
+    border-radius: 8px;
 }
 
 div.logo {
@@ -69,6 +69,11 @@ body>.player::after {
     background-color: #f0f8ff90;
     width: 2px;
 
+}
+
+body>.player .hey_thats_me,
+.final_answer .position_svg .hey_thats_me {
+    border-width: 8px !important;
 }
 
 body>.player>h2 {
@@ -123,17 +128,18 @@ body>.player>div>div.leo {
     margin-top: 30px;
     margin-left: 210px;
     position: relative;
+    min-height: 500px;
 }
 
 .content>div {
     min-height: 500px;
     position: relative;
-    
+
 }
 
 .content>div h2 {
     padding-top: 20px;
-    
+
 }
 
 .content h2,
@@ -234,7 +240,7 @@ div.register div.leo img {
     animation: spin 2s linear infinite;
 }
 
-/* spin {
+spin {
     0% {
         -webkit-transform: rotate(0deg);
     }
@@ -252,7 +258,7 @@ div.register div.leo img {
     100% {
         transform: rotate(360deg);
     }
-} */
+}
 
 /* div.question {} */
 
@@ -275,14 +281,18 @@ div.question .questioner h2 input {
     font-size: 24px;
 }
 
+div.question .questioner button {
+    margin-left: 50%;
+    transform: translate(-50%);
+
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
+
 
 
 
 /* State 2 - Antwort */
-/* .content div.answering {}
-.content div.answering h2 span {
-
-} */
 
 
 div.answering .melody_box {
@@ -417,6 +427,11 @@ div.answering div.anpl .submit {
 .final_answer .button_container {
     margin-top: 50px;
     text-align: center;
+}
+
+.final_answer .button_container button {
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
 }
 
 .final_answer .position_svg>div.hide {
