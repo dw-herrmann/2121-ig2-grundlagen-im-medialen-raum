@@ -30,12 +30,6 @@ function send(domain, value) {
 
 
 
-
-
-
-
-
-
 // ##### ##### ##### PLAYER  ##### ##### ##### //
 // ----- ----- ----- PLAYER  ----- ----- ----- //
 // ##### ##### ##### PLAYER  ##### ##### ##### //
@@ -213,8 +207,6 @@ class Game {
 
 
 
-
-
     update_send() {
         // wenn cliend, update list
         if (players.me.index == 0) {
@@ -244,6 +236,8 @@ class Game {
         ui.update()
     }
 
+
+
     // CLIENT new game
     reset() {
         console.log("reset");
@@ -264,43 +258,6 @@ class Game {
 }
 
 let game = new Game()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -622,11 +579,11 @@ class UI {
 
         this.show_question()
         this.show_now_state()
-        
+
         this.show_players()
         this.show_answer()
         this.show_reset_button()
-        
+
         this.highlight_me()
     }
 }
