@@ -1,9 +1,14 @@
+// Connecting to server. Don't touch this :-) 
+let socket = io();
+
+
+
+
+
+
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
 // ----- ----- ----- CONNECTION  ----- ----- ----- //
 // ##### ##### ##### CONNECTION  ##### ##### ##### //
-
-// Connecting to server. Don't touch this :-) 
-let socket = io();
 
 // Check nach Verbindung
 socket.on('connected', function (msg) {
@@ -19,6 +24,12 @@ function send(domain, value) {
         value: value
     });
 }
+
+
+
+
+
+
 
 
 
@@ -70,6 +81,9 @@ let players = {
     me: new Player,
     list: []
 }
+
+
+
 
 
 
@@ -199,6 +213,8 @@ class Game {
 
 
 
+
+
     update_send() {
         // wenn cliend, update list
         if (players.me.index == 0) {
@@ -228,8 +244,6 @@ class Game {
         ui.update()
     }
 
-
-
     // CLIENT new game
     reset() {
         console.log("reset");
@@ -250,6 +264,43 @@ class Game {
 }
 
 let game = new Game()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -571,17 +622,57 @@ class UI {
 
         this.show_question()
         this.show_now_state()
-
+        
         this.show_players()
         this.show_answer()
         this.show_reset_button()
-
+        
         this.highlight_me()
     }
 }
 
 
 let ui = new UI()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -652,6 +743,13 @@ $(".final_answer .button_container .new_round").click(function () {
 
 
 
+
+
+
+
+
+
+
 $(".answering button.play").click(function () {
     playMelody();
 })
@@ -687,6 +785,22 @@ function playMelody() {
 
 };
 
+
+
+
+
+
+
+
+
+// let notes = ["./sound/C3.mp3","./sound/H.mp3","./sound/A.mp3","./sound/G.mp3","./sound/F.mp3","./sound/E.mp3",
+// "./sound/D.mp3","./sound/C4.mp3"
+// ]
+// let note = []
+
+// for (i=0; i<notes.length; i++) {
+//     note[i]= new Audio("Audio/"+notes[i]);
+//   }
 
 
 
@@ -745,9 +859,19 @@ for (let index = 0; index <= $(".melody_box > div").length; index++) {
 
 
 
-// ##### ##### ##### RECEIVE AND PROCESS  ##### ##### ##### //
-// ----- ----- ----- RECEIVE AND PROCESS  ----- ----- ----- //
-// ##### ##### ##### RECEIVE AND PROCESS  ##### ##### ##### //
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Events erhalten und interpretieren */
 socket.on('serverEvent', function (input) {
@@ -838,6 +962,13 @@ socket.on('newUsersEvent', function (myID, myIndex, userList) {
 
 
 
+
+
+
+
+
+
+
 // debug
 
 function debug() {
@@ -845,3 +976,60 @@ function debug() {
     console.log(game);
     console.log(ui);
 }
+
+// if (players.me.index == 0) {
+//     players.me.answer = [7, "pause", 7, "pause", 7, "pause", 7, "pause"]
+//     players.me.avatar = 2
+//     game.state = 3
+//     ui.avatars.used[0] = 1
+// } else if (players.me.index == 0) {
+//     ui.avatars.used[2] = 1
+
+// }
+// ui.avatars.used[3] = 1
+
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "a",
+//         index: 2,
+//         avatar: 3,
+//         answer: [4, 3, 4, 3, 4, 3, 4, 3]
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "b",
+//         index: 3,
+//         avatar: 0,
+//         answer: [1, 2, 1, 2, 1, 2, 1, 2]
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "c",
+//         index: 4,
+//         avatar: 1,
+//         answer: ""
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "d",
+//         index: 5,
+//         avatar: 1,
+//         answer: ""
+//     }
+// })
+// send("players", {
+//     who: "own",
+//     player: {
+//         id: "e",
+//         index: 6,
+//         avatar: 2,
+//         answer: ""
+//     }
+// })
