@@ -1,0 +1,452 @@
+* {
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    box-sizing: border-box;
+}
+
+html {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    color: aliceblue;
+    background-color: #646464;
+    background-image: url("../img/background.svg");
+}
+
+body {
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 100px;
+    transform: translate(-50%);
+    width: 80%;
+    max-width: 1000px;
+    padding: 30px;
+    background-color: #4D4D4D;
+    height: auto;
+    border-radius: 8px;
+}
+
+div.logo {
+    width: absolute;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+}
+
+.button {
+    background-color: #4D4D4D;
+    border: 2px solid #4D4D4D;
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: white;
+}
+
+.button:hover,
+button:hover {
+    border: 2px solid rgb(133, 133, 133);
+}
+
+
+
+/* Player Ansicht  */
+body>.player {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    bottom: 30px;
+    width: 180px;
+}
+
+body>.player::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -15px;
+    background-color: #f0f8ff90;
+    width: 2px;
+
+}
+
+body>.player .hey_thats_me,
+.final_answer .position_svg .hey_thats_me {
+    border-width: 8px !important;
+}
+
+body>.player>h2 {
+    text-align: center;
+}
+
+
+body>.player>div>div {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 200px;
+    background-color: #7FBC7D40;
+    position: relative;
+    margin: 30px auto;
+}
+
+body>.player .playeremoji {
+    position: absolute;
+    top: 50%;
+    height: 60%;
+    width: 100%;
+    transform: translate(0, -50%);
+}
+
+body>.player>div>div.koala {
+    border: 4px solid #7FBC7D;
+    background-color: #7FBC7D40;
+}
+
+body>.player>div>div.giraffe {
+    border: 4px solid #FFBB6B;
+    background-color: #FFBB6B40;
+}
+
+body>.player>div>div.elefant {
+    border: 4px solid #FC7479;
+    background-color: #FC747940;
+}
+
+body>.player>div>div.leo {
+    border: 4px solid #4BA9DC;
+    background-color: #4BA9DC40;
+}
+
+
+
+
+/* Content-Bereich */
+.content {
+    top: -30px;
+    margin-top: 30px;
+    margin-left: 210px;
+    position: relative;
+    min-height: 500px;
+}
+
+.content>div {
+    min-height: 500px;
+    position: relative;
+
+}
+
+.content>div h2 {
+    padding-top: 20px;
+
+}
+
+.content h2,
+.content h3 {
+    text-align: center;
+}
+
+
+
+
+
+
+
+/* State 0 - Anmeldung */
+/* .content div.register {} */
+
+div.register .avatar {
+    position: absolute;
+    /* right: 0; */
+    left: 50%;
+    top: calc(50% + 40px);
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+div.register .selected {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+
+div.register .avatar div {
+    width: 120px;
+    height: 120px;
+    margin: 30px;
+    top: 200px;
+    left: 200px;
+    border-radius: 200px;
+    border: 4px solid #7FBC7D;
+    background-color: #7FBC7D40;
+    /* display: inline-block; */
+}
+
+div.register .avatar div img {
+    margin-left: 50%;
+    margin-top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+div.register div.koala img {
+    width: 85px;
+}
+
+div.register div.giraffe {
+    border: 4px solid #FFBB6B;
+    background-color: #FFBB6B40;
+}
+
+div.register div.giraffe img {
+    width: 65px;
+}
+
+div.register div.elefant {
+    border: 4px solid #FC7479;
+    background-color: #FC747940;
+}
+
+div.register div.elefant img {
+    width: 100px;
+}
+
+div.register div.leo {
+    border: 4px solid #4BA9DC;
+    background-color: #4BA9DC40;
+}
+
+div.register div.leo img {
+    width: 61px;
+}
+
+
+
+/* State 1 - Fragestellung */
+.content div.question .loader {
+    margin-left: 45%;
+    margin-top: 10%;
+    transform: translate(-50%, -50%);
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #7FBC7D;
+    border-right: 8px solid #FFBB6B;
+    border-bottom: 8px solid #FC7479;
+    border-left: 8px solid #4BA9DC;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* div.question {} */
+
+div.question>div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -70%);
+}
+
+
+div.question .questioner h2 input {
+    background-color: #4D4D4D;
+    border: none;
+    border-bottom: thin;
+    border-bottom-style: solid;
+    border-bottom-color: aliceblue;
+    color: white;
+    font-size: 24px;
+}
+
+div.question .questioner button {
+    margin-left: 50%;
+    transform: translate(-50%);
+
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
+
+
+
+
+/* State 2 - Antwort */
+
+
+div.answering .melody_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+div.answering .melody_box>div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 5px;
+}
+
+div.answering .melody_box .active>div {
+    background-color: #424242;
+}
+
+div.answering .melody_box>div>div {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border-radius: 4px;
+    background-color: #333333;
+}
+
+/* Farbe der Kästchen ändern*/
+div.answering .melody_box>div .changeColor {
+    background-color: rgb(248, 248, 220);
+}
+
+div.answering div.anpl {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+div.answering div.anpl .play {
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
+
+div.answering div.anpl .submit {
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
+
+
+/* State 3 - Anhören der Antworten */
+.content .final_answer {
+    margin-left: -210px;
+}
+
+.final_answer .finalpage {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 30px;
+
+}
+
+.final_answer .position_svg,
+.final_answer .playbutton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+
+}
+
+
+.final_answer .position_svg {
+    border-right: 2px solid #f0f8ff90;
+}
+
+
+.final_answer .playbutton button {
+    width: 105px;
+    padding: 0;
+}
+
+
+.final_answer .position_svg div,
+.final_answer .playbutton button {
+    height: 105px;
+    margin: 20px 0 !important;
+}
+
+
+.final_answer .position_svg div {
+    display: flex;
+    width: 105px;
+    height: 105px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border: 4px solid #7FBC7D;
+    background-color: #7FBC7D40;
+    border-radius: 50%;
+    position: relative;
+}
+
+.final_answer .position_svg div img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.final_answer div.giraffe {
+    border: 4px solid #FFBB6B;
+    background-color: #FFBB6B40;
+}
+
+.final_answer div.elefant {
+    border: 4px solid #FC7479;
+    background-color: #FC747940;
+}
+
+.final_answer div.leo {
+    border: 4px solid #4BA9DC;
+    background-color: #4BA9DC40;
+}
+
+
+.final_answer .button_container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.final_answer .button_container button {
+    background-color: rgb(248, 248, 220, 0.2);
+    border-radius: 6px;
+}
+
+.final_answer .position_svg>div.hide {
+    display: none;
+}
+
+.final_answer .playbutton>button:disabled {
+    opacity: 0.3;
+}
+
+.final_answer .playbutton .koala,
+.final_answer .playbutton .giraffe,
+.final_answer .playbutton .elefant,
+.final_answer .playbutton .leo {
+    background-color: #4D4D4D;
+    border: none;
+}
